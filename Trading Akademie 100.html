@@ -1,0 +1,1078 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Trading Akademie 100</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Source+Serif+4:opsz,wght@8..60,400..700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: Lehrbuch mit fester Kapitel-Leiste links (Desktop) bzw. scrollbarer Kapitel-Leiste oben (Handy); ein Modul pro Ansicht, Ordertabellen und Charts wie ein Handelsterminal */
+:root{
+  --bg:#F2F3F7; --surface:#FFFFFF; --ink:#141A2E; --muted:#58607C; --line:#DCE0EA;
+  --accent:#3245E6; --accent-ink:#FFFFFF; --chip:#E7EAF8;
+  --up:#0C946A; --down:#D33F48; --warn:#B8761A;
+  --up-bg:#E2F4EC; --down-bg:#FBE7E8; --warn-bg:#FBF0DD;
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1120; --surface:#171B2F; --ink:#E8EBF6; --muted:#9AA2BF; --line:#2A3050;
+  --accent:#8C99FF; --accent-ink:#0E1120; --chip:#232A4C;
+  --up:#2EC48D; --down:#F0676F; --warn:#E6A63C;
+  --up-bg:#123227; --down-bg:#3A1A20; --warn-bg:#3A2C14; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1120; --surface:#171B2F; --ink:#E8EBF6; --muted:#9AA2BF; --line:#2A3050;
+  --accent:#8C99FF; --accent-ink:#0E1120; --chip:#232A4C;
+  --up:#2EC48D; --down:#F0676F; --warn:#E6A63C;
+  --up-bg:#123227; --down-bg:#3A1A20; --warn-bg:#3A2C14; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.62;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3,h4{font-family:var(--f-display);font-stretch:118%;line-height:1.12;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.7rem,4.2vw,2.5rem);font-weight:850;letter-spacing:-.01em}
+h3{font-size:1.22rem;font-weight:750;margin-top:2.2rem}
+h4{font-size:1rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+code,.mono{font-family:var(--f-mono);font-size:.86em}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+.app{display:grid;grid-template-columns:270px minmax(0,1fr);gap:40px;max-width:1180px;margin:0 auto}
+.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding-block:28px 40px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;flex-direction:column;gap:4px}
+.brand b{font-family:var(--f-display);font-stretch:125%;font-weight:900;font-size:1.35rem;letter-spacing:-.01em;line-height:1}
+.brand span{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.prog{display:flex;flex-direction:column;gap:6px}
+.prog .bar{height:8px;border-radius:99px;background:var(--chip);overflow:hidden}
+.prog .bar i{display:block;height:100%;width:0;background:var(--up);transition:width .4s}
+.prog small{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.toc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.toc a{display:grid;grid-template-columns:28px 1fr 18px;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;text-decoration:none;color:var(--ink);font-family:var(--f-display);font-size:.92rem;font-weight:600}
+.toc a:hover{background:var(--chip)}
+.toc a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+.toc .n{font-family:var(--f-mono);font-size:.72rem;opacity:.7}
+.toc .st{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);justify-self:end}
+.toc .st.ok{background:var(--up);border-color:var(--up)}
+.toc a[aria-current="page"] .st{border-color:currentColor}
+
+main{min-width:0;padding-block:36px 80px}
+.mod{max-width:760px;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.lede{font-size:1.16rem;color:var(--muted);max-width:62ch}
+.mod p,.mod li{max-width:66ch}
+.mod ul,.mod ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:6px}
+
+.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.tag{align-self:flex-start;font-family:var(--f-mono);font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--chip);color:var(--accent)}
+.box.risk{background:var(--down-bg);border-color:transparent}
+.box.risk .tag{background:var(--down);color:var(--surface)}
+.box.pro{background:var(--up-bg);border-color:transparent}
+.box.pro .tag{background:var(--up);color:var(--surface)}
+.box.xtb{background:var(--warn-bg);border-color:transparent}
+.box.xtb .tag{background:var(--warn);color:var(--surface)}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem;min-width:520px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-weight:700;font-size:.82rem;letter-spacing:.02em;background:var(--chip)}
+tr:last-child td{border-bottom:0}
+td.num,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card h4{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.card p{font-size:.95rem}
+.pill{font-family:var(--f-mono);font-size:.68rem;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.pill.u{background:var(--up-bg);color:var(--up)} .pill.d{background:var(--down-bg);color:var(--down)} .pill.n{background:var(--chip);color:var(--muted)}
+svg.mini{width:100%;max-width:150px;height:auto;align-self:center}
+svg.mini line{stroke-width:2}
+svg.mini .u{stroke:var(--up);fill:var(--up)} svg.mini .d{stroke:var(--down);fill:var(--down)}
+svg.mini .pl{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+svg.mini .lv{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:4 3}
+
+.anat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;overflow-x:auto}
+.anat svg{display:block;width:100%;max-width:520px;margin:0 auto;height:auto}
+.anat .u{fill:var(--up);stroke:var(--up)} .anat .d{fill:var(--down);stroke:var(--down)}
+.anat text{fill:var(--muted);font-family:var(--f-mono);font-size:12px}
+.anat .ld{stroke:var(--line);stroke-width:1;stroke-dasharray:3 3}
+.anat .cap{fill:var(--ink);font-family:var(--f-display);font-weight:700;font-size:13px}
+
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.chart canvas{width:100%;display:block}
+.togs{display:flex;flex-wrap:wrap;gap:6px}
+.tog{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:5px 12px;font-family:var(--f-display);font-size:.82rem;font-weight:600;cursor:pointer}
+.tog[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chart figcaption{font-size:.88rem;color:var(--muted)}
+
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.calc h4{grid-column:1/-1}
+.fields{display:flex;flex-direction:column;gap:10px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-family:var(--f-display);font-size:.8rem;font-weight:600;color:var(--muted)}
+.fields input,.fields select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:var(--f-mono);font-size:.95rem;width:100%}
+.out{background:var(--bg);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:.92rem}
+.out .row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:6px}
+.out .row:last-of-type{border-bottom:0}
+.out b{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600}
+.out .big{font-family:var(--f-mono);font-size:1.5rem;font-weight:600}
+.pos{color:var(--up)} .neg{color:var(--down)}
+.out .hint{font-size:.84rem;color:var(--muted)}
+
+.steps{list-style:none;padding:0!important;counter-reset:s;gap:10px!important}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.steps li::before{content:counter(s);font-family:var(--f-mono);font-weight:600;font-size:.85rem;width:30px;height:30px;border-radius:50%;background:var(--chip);color:var(--accent);display:grid;place-items:center}
+
+.quiz{background:var(--surface);border:2px solid var(--accent);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:18px;margin-top:20px}
+.quiz header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.quiz header h3{margin:0}
+.score{font-family:var(--f-mono);font-size:.85rem;padding:4px 10px;border-radius:99px;background:var(--chip)}
+.score.ok{background:var(--up);color:var(--surface)}
+.qq{display:flex;flex-direction:column;gap:8px}
+.qq p{font-weight:600}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 14px;cursor:pointer;font-size:.97rem;line-height:1.4}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--up-bg);border-color:var(--up)}
+.opt.wrong{background:var(--down-bg);border-color:var(--down)}
+.expl{font-size:.92rem;padding:10px 14px;border-radius:10px;background:var(--chip)}
+.qa{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-family:var(--f-display);font-weight:700;font-size:.9rem;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:28px;flex-wrap:wrap}
+.pager a{text-decoration:none}
+
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.map a{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.map a:hover{border-color:var(--accent)}
+.map b{font-family:var(--f-display);font-weight:700;font-size:.95rem}
+.map small{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+
+.check{list-style:none;padding:0!important}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:var(--up);flex:none}
+.phase{display:flex;flex-direction:column;gap:10px}
+.phase .when{font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+
+.gloss-search{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;width:100%;font-family:var(--f-body);font-size:1rem}
+dl.gloss{margin:0;display:flex;flex-direction:column}
+dl.gloss div{padding:12px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:170px minmax(0,1fr);gap:14px}
+dl.gloss dt{font-family:var(--f-display);font-weight:700}
+dl.gloss dd{margin:0;font-size:.95rem}
+
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr);gap:0}
+  .side{position:sticky;top:env(safe-area-inset-top,0px);height:auto;z-index:5;background:var(--bg);padding-block:10px;gap:8px;border-bottom:1px solid var(--line);margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow:visible}
+  .brand{flex-direction:row;align-items:baseline;justify-content:space-between}
+  .brand b{font-size:1.05rem}
+  .prog{display:none}
+  .toc{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px;scrollbar-width:none}
+  .toc::-webkit-scrollbar{display:none}
+  .toc a{grid-template-columns:auto auto;white-space:nowrap;background:var(--surface);border:1px solid var(--line);padding:6px 10px;font-size:.82rem}
+  .toc .st{display:none}
+  .toc a.done{border-color:var(--up)}
+  main{padding-block:22px 60px}
+  .calc{grid-template-columns:minmax(0,1fr)}
+  dl.gloss div{grid-template-columns:minmax(0,1fr);gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand"><b>Trading Akademie 100</b><span id="mobProg">Lehrgang · XTB</span></div>
+    <div class="prog"><div class="bar"><i id="progBar"></i></div><small id="progTxt">0 von 13 Lernkontrollen bestanden</small></div>
+    <ul class="toc" id="toc"></ul>
+  </aside>
+  <main id="main">
+
+<!-- ============ START ============ -->
+<section class="mod" data-mod="start">
+  <span class="eyebrow">Einstieg · 5 Min</span>
+  <h2>Dein Fahrplan vom Krypto-Kauf zum strukturierten Trader</h2>
+  <p class="lede">Du kennst Binance, jetzt kommt das Fundament: Charts lesen, Orders automatisieren, Risiko steuern. Arbeite die Module der Reihe nach durch. Jedes endet mit einer Lernkontrolle, die du ab zwei Dritteln richtig bestehst.</p>
+
+  <div class="box">
+    <span class="tag">So arbeitest du damit</span>
+    <ol class="steps">
+      <li><span>Modul lesen und die Beispiele im eigenen XTB-Chart nachstellen.</span></li>
+      <li><span>Lernkontrolle machen. Falsch beantwortet? Erklärung lesen, später neu starten.</span></li>
+      <li><span>Das Gelernte im <b>Demokonto</b> üben. Erst Echtgeld, wenn der 100-€-Plan es freigibt.</span></li>
+      <li><span>Jeden Trade ins Journal schreiben (Vorlage in Modul 10).</span></li>
+    </ol>
+  </div>
+
+  <div class="box risk">
+    <span class="tag">Die ehrliche Zahl vorweg</span>
+    <p>XTB weist selbst darauf hin, dass rund drei Viertel der Kleinanlegerkonten beim CFD-Handel Geld verlieren. Niemand weiß sicher, wann ein Kurs steigt oder fällt. Profis gewinnen nicht durch perfekte Vorhersagen, sondern weil ihre Verluste klein und ihre Gewinne größer sind und sie Regeln einhalten. Genau darauf ist dieser Lehrgang aufgebaut.</p>
+  </div>
+
+  <h3>Was du von Binance schon kennst</h3>
+  <div class="tbl"><table>
+    <tr><th>Binance</th><th>XTB-Gegenstück</th><th>Unterschied</th></tr>
+    <tr><td>Spot-Kauf (BTC, ETH)</td><td>Echte Aktien &amp; ETFs</td><td>Du besitzt das Wertpapier, kein Hebel</td></tr>
+    <tr><td>Futures mit Hebel</td><td>CFDs</td><td>Vertrag auf die Kursdifferenz, Long und Short</td></tr>
+    <tr><td>Liquidation</td><td>Margin Close-out bei 50 %</td><td>XTB schließt Positionen automatisch</td></tr>
+    <tr><td>USDT-Guthaben</td><td>Verrechnungskonto in EUR</td><td>Wird verzinst, Einlagensicherung</td></tr>
+    <tr><td>Limit / Stop-Limit</td><td>Limit, Stop, SL/TP, Trailing Stop</td><td>Funktioniert sehr ähnlich</td></tr>
+    <tr><td>Krypto 24/7</td><td>Börsenzeiten</td><td>Aktien nur zu Handelszeiten, Kurslücken über Nacht</td></tr>
+  </table></div>
+
+  <h3>Dein Lernpfad</h3>
+  <div class="map" id="map"></div>
+
+  <p class="mono" style="color:var(--muted);font-size:.8rem">Bildungsinhalt, keine Anlageberatung. Konditionen und App-Bezeichnungen können sich ändern, prüfe sie immer direkt bei XTB.</p>
+</section>
+
+<!-- ============ GRUNDLAGEN ============ -->
+<section class="mod" data-mod="grundlagen" hidden>
+  <span class="eyebrow">Modul 1 · 12 Min</span>
+  <h2>Märkte &amp; Produkte</h2>
+  <p class="lede">Bevor du einen Chart liest, musst du wissen, was du eigentlich handelst und was dir am Ende gehört.</p>
+
+  <h3>Wie ein Kurs entsteht</h3>
+  <p>An der Börse treffen Käufer und Verkäufer aufeinander. Der <b>Ask</b> (Briefkurs) ist der Preis, zu dem du kaufen kannst, der <b>Bid</b> (Geldkurs) der Preis, zu dem du verkaufen kannst. Die Differenz ist der <b>Spread</b>. Er ist bei XTB-CFDs die Hauptgebühr: Jede Position startet deshalb leicht im Minus.</p>
+  <p>Ein Kurs steigt, wenn mehr Leute zum aktuellen Preis kaufen wollen als verkaufen. Bei Aktien steckt dahinter die Erwartung an künftige Gewinne, bei Rohstoffen Angebot und Nachfrage, bei Währungen Zinsen und Wirtschaftsdaten.</p>
+
+  <h3>Was du bei XTB handeln kannst</h3>
+  <div class="grid2">
+    <div class="card"><h4>Aktie <span class="pill u">echt</span></h4><p>Anteil an einem Unternehmen. Du bekommst Dividenden und profitierst langfristig vom Wachstum.</p></div>
+    <div class="card"><h4>ETF <span class="pill u">echt</span></h4><p>Ein Korb aus vielen Aktien, z.&nbsp;B. ein MSCI World mit weit über 1.000 Firmen. Breit gestreut, ideal zum Vermögensaufbau.</p></div>
+    <div class="card"><h4>Index <span class="pill n">CFD</span></h4><p>DAX (bei XTB <code>DE40</code>), S&amp;P 500 (<code>US500</code>), Nasdaq 100 (<code>US100</code>). Saubere Charts, gut zum Üben.</p></div>
+    <div class="card"><h4>Rohstoffe <span class="pill n">CFD</span></h4><p>Gold, Öl, Erdgas (<code>NATGAS</code>). Stark nachrichtengetrieben und oft sehr schwankungsfreudig.</p></div>
+    <div class="card"><h4>Devisen <span class="pill n">CFD</span></h4><p>Währungspaare wie <code>EURUSD</code>. Riesige Liquidität, kleine Bewegungen, meist mit Hebel gehandelt.</p></div>
+    <div class="card"><h4>Krypto <span class="pill n">CFD</span></h4><p>Bei XTB nur als CFD. Du besitzt keine Coins und kannst nichts in eine Wallet auszahlen.</p></div>
+  </div>
+
+  <h3>Echt oder CFD: der wichtigste Unterschied</h3>
+  <div class="tbl"><table>
+    <tr><th></th><th>Echte Aktie / ETF</th><th>CFD</th></tr>
+    <tr><td>Gehört dir</td><td>Das Wertpapier</td><td>Nur ein Vertrag mit XTB auf die Kursdifferenz</td></tr>
+    <tr><td>Hebel</td><td>Keiner</td><td>Ja, gesetzlich begrenzt (Modul 7)</td></tr>
+    <tr><td>Short möglich</td><td>Nein</td><td>Ja</td></tr>
+    <tr><td>Kosten bei XTB</td><td>0 % bis 100.000 € Monatsvolumen, 0,5 % Währungsumtausch</td><td>Spread plus Übernachtkosten (Swap)</td></tr>
+    <tr><td>Typische Haltedauer</td><td>Monate bis Jahre</td><td>Stunden bis Tage</td></tr>
+    <tr><td>Totalverlust</td><td>Nur wenn die Firma pleitegeht</td><td>Einsatz kann in Stunden weg sein</td></tr>
+  </table></div>
+
+  <h3>Handelszeiten (deutsche Zeit)</h3>
+  <ul>
+    <li><b>Xetra (deutsche Aktien):</b> 9:00 bis 17:30 Uhr.</li>
+    <li><b>US-Börsen:</b> 15:30 bis 22:00 Uhr. Rund um die Zeitumstellung im März und Oktober/November für ein bis zwei Wochen eine Stunde früher.</li>
+    <li><b>Index-, Rohstoff- und Devisen-CFDs:</b> fast durchgehend Montag bis Freitag, mit kurzen täglichen Pausen.</li>
+  </ul>
+  <div class="box pro"><span class="tag">Profi-Tipp</span><p>Die stärksten Bewegungen kommen zur Börseneröffnung und bei wichtigen Nachrichten. Genau dort sind auch die Spreads am breitesten. Als Anfänger handelst du nicht in den ersten 15 Minuten nach Eröffnung.</p></div>
+
+  <div class="quiz" data-quiz="grundlagen"></div>
+</section>
+
+<!-- ============ KERZEN ============ -->
+<section class="mod" data-mod="kerzen" hidden>
+  <span class="eyebrow">Modul 2 · 15 Min</span>
+  <h2>Kerzencharts lesen</h2>
+  <p class="lede">Die „Treppen“, die du im Chart siehst, sind Kerzen. Jede Kerze erzählt, was in einem Zeitraum zwischen Käufern und Verkäufern passiert ist.</p>
+
+  <h3>Aufbau einer Kerze</h3>
+  <div class="anat">
+    <svg viewBox="0 0 440 240" role="img" aria-label="Aufbau einer grünen und einer roten Kerze">
+      <text class="cap" x="20" y="18">Grüne Kerze (steigend)</text>
+      <line class="u" x1="70" x2="70" y1="38" y2="212" stroke-width="3"/>
+      <rect class="u" x="52" y="80" width="36" height="90" rx="3"/>
+      <line class="ld" x1="92" x2="118" y1="38" y2="38"/><text x="122" y="42">Hoch</text>
+      <line class="ld" x1="92" x2="118" y1="80" y2="80"/><text x="122" y="84">Schluss</text>
+      <line class="ld" x1="92" x2="118" y1="170" y2="170"/><text x="122" y="174">Eröffnung</text>
+      <line class="ld" x1="92" x2="118" y1="212" y2="212"/><text x="122" y="216">Tief</text>
+      <text class="cap" x="240" y="18">Rote Kerze (fallend)</text>
+      <line class="d" x1="290" x2="290" y1="50" y2="200" stroke-width="3"/>
+      <rect class="d" x="272" y="80" width="36" height="90" rx="3"/>
+      <line class="ld" x1="312" x2="338" y1="50" y2="50"/><text x="342" y="54">Hoch</text>
+      <line class="ld" x1="312" x2="338" y1="80" y2="80"/><text x="342" y="84">Eröffnung</text>
+      <line class="ld" x1="312" x2="338" y1="170" y2="170"/><text x="342" y="174">Schluss</text>
+      <line class="ld" x1="312" x2="338" y1="200" y2="200"/><text x="342" y="204">Tief</text>
+      <text x="20" y="236">Körper = Eröffnung bis Schluss · Docht = Hoch und Tief</text>
+    </svg>
+  </div>
+  <ul>
+    <li><b>Grün:</b> Der Schlusskurs liegt über dem Eröffnungskurs. Käufer haben gewonnen.</li>
+    <li><b>Rot:</b> Der Schlusskurs liegt unter dem Eröffnungskurs. Verkäufer haben gewonnen.</li>
+    <li><b>Großer Körper:</b> klare Richtung, eine Seite war deutlich stärker.</li>
+    <li><b>Langer Docht:</b> Der Preis war dort, wurde aber zurückgewiesen. Ein langer unterer Docht zeigt, dass Käufer tiefe Preise aufgekauft haben.</li>
+  </ul>
+
+  <h3>Zeiteinheiten</h3>
+  <p>Oben im XTB-Chart wählst du, wie lange eine Kerze dauert: <code>M1</code> (1 Minute), <code>M5</code>, <code>M15</code>, <code>H1</code> (1 Stunde), <code>H4</code>, <code>D1</code> (1 Tag), <code>W1</code> (1 Woche).</p>
+  <div class="tbl"><table>
+    <tr><th>Zeiteinheit</th><th>Wofür</th><th>Für dich als Einsteiger</th></tr>
+    <tr><td class="num">W1 / D1</td><td>Großes Bild, Haupttrend, wichtigste Zonen</td><td>Immer zuerst anschauen</td></tr>
+    <tr><td class="num">H4 / H1</td><td>Einstieg planen, Swing-Trades über Tage</td><td>Deine Arbeitszeiteinheit</td></tr>
+    <tr><td class="num">M15 / M5</td><td>Feinabstimmung, Daytrading</td><td>Erst nach Monaten</td></tr>
+    <tr><td class="num">M1</td><td>Scalping</td><td>Meiden, fast nur Rauschen</td></tr>
+  </table></div>
+  <div class="box pro"><span class="tag">Profi-Regel: Top-down</span><p>Erst Tageschart (Richtung), dann 4-Stunden-Chart (Zonen), dann 1-Stunden-Chart (Einstieg). Du handelst nie gegen den Trend der höheren Zeiteinheit, solange du lernst.</p></div>
+
+  <h3>Volumen</h3>
+  <p>Die Balken unter dem Chart zeigen, wie viel gehandelt wurde. Eine Bewegung mit hohem Volumen ist ernster gemeint als eine mit wenig Volumen. Ein Ausbruch ohne Volumen scheitert öfter.</p>
+
+  <div class="box xtb"><span class="tag">In der XTB-App</span>
+    <ol class="steps">
+      <li><span>Instrument suchen, z.&nbsp;B. <code>DE40</code>, und den Chart öffnen.</span></li>
+      <li><span>Charttyp auf Kerzen stellen, falls eine Linie angezeigt wird.</span></li>
+      <li><span>Zeiteinheit oben umschalten und dieselbe Stelle in D1, H4 und H1 vergleichen.</span></li>
+      <li><span>Im Querformat siehst du mehr Kerzen und die Zeichenwerkzeuge.</span></li>
+    </ol>
+  </div>
+
+  <div class="quiz" data-quiz="kerzen"></div>
+</section>
+
+<!-- ============ TRENDS ============ -->
+<section class="mod" data-mod="trends" hidden>
+  <span class="eyebrow">Modul 3 · 20 Min</span>
+  <h2>Trend, Support &amp; Resistance</h2>
+  <p class="lede">Das ist das Herzstück der Chartanalyse. Wenn du nur ein Modul richtig beherrschst, dann dieses.</p>
+
+  <h3>Drei Marktphasen</h3>
+  <div class="grid2">
+    <div class="card"><h4>Aufwärtstrend <span class="pill u">Long</span></h4><p>Höhere Hochs und höhere Tiefs. Jeder Rücksetzer endet über dem letzten Tief.</p></div>
+    <div class="card"><h4>Abwärtstrend <span class="pill d">Short</span></h4><p>Tiefere Hochs und tiefere Tiefs. Erholungen scheitern unter dem letzten Hoch.</p></div>
+    <div class="card"><h4>Seitwärts <span class="pill n">abwarten</span></h4><p>Kurs pendelt zwischen einer Unter- und Obergrenze. Ausbruch abwarten oder an den Rändern handeln.</p></div>
+  </div>
+
+  <h3>Support und Resistance</h3>
+  <p><b>Support</b> (Unterstützung) ist eine Preiszone, an der Käufer bisher eingestiegen sind und der Kurs nach oben gedreht hat. <b>Resistance</b> (Widerstand) ist eine Zone, an der Verkäufer den Kurs bisher gedrückt haben.</p>
+  <ul>
+    <li>Es sind <b>Zonen</b>, keine exakten Linien. Zeichne ein Band, das die Dochte und Körper umfasst.</li>
+    <li>Je öfter eine Zone gehalten hat, desto wichtiger ist sie. Aber jeder Test schwächt sie auch.</li>
+    <li><b>Rollentausch:</b> Eine durchbrochene Resistance wird oft zum neuen Support. Der Rücklauf dorthin heißt <b>Retest</b>.</li>
+    <li>Runde Zahlen (DAX 20.000, Erdgas 3,00 USD) wirken oft als psychologische Marken.</li>
+  </ul>
+
+  <figure class="chart" data-chart='{"sr":true,"tl":false,"ma20":false,"ma50":false,"rsi":false}' data-toggles="sr,tl,ma20" style="margin:0">
+    <div class="togs"></div>
+    <canvas aria-label="Beispielchart mit Support, Resistance, Ausbruch und Retest"></canvas>
+    <figcaption>Übungschart mit Beispieldaten. Der Kurs prallt dreimal an der Resistance ab und zweimal am Support, bricht dann aus, testet die alte Resistance von oben und läuft im neuen Aufwärtstrend weiter. Schalte die Ebenen an und aus.</figcaption>
+  </figure>
+
+  <h3>So zeichnest du Zonen in XTB ein</h3>
+  <ol class="steps">
+    <li><span>Tageschart öffnen, etwa sechs Monate sichtbar machen.</span></li>
+    <li><span>Stellen suchen, an denen der Kurs mindestens zweimal klar gedreht hat.</span></li>
+    <li><span>Mit dem Rechteck- oder Linienwerkzeug ein Band über diese Wendepunkte legen.</span></li>
+    <li><span>In H4 und H1 prüfen, ob die Zone dort auch sichtbar ist. Unwichtige Linien wieder löschen. Drei bis fünf Zonen reichen.</span></li>
+  </ol>
+
+  <h3>Falsche Ausbrüche</h3>
+  <p>Oft sticht der Kurs kurz über eine Resistance und fällt sofort zurück (Fakeout). Schutz dagegen: Warte, bis eine Kerze deiner Zeiteinheit <b>über</b> der Zone schließt, oder steig erst beim Retest ein.</p>
+
+  <div class="quiz" data-quiz="trends"></div>
+</section>
+
+<!-- ============ MUSTER ============ -->
+<section class="mod" data-mod="muster" hidden>
+  <span class="eyebrow">Modul 4 · 18 Min</span>
+  <h2>Chart- &amp; Kerzenmuster</h2>
+  <p class="lede">Muster zeigen dir, wann sich das Kräfteverhältnis drehen <i>könnte</i>. Sie sind Wahrscheinlichkeiten, keine Versprechen, und zählen nur an einer wichtigen Zone.</p>
+
+  <h3>Kerzenmuster</h3>
+  <div class="grid2">
+    <div class="card"><h4>Hammer <span class="pill u">bullisch</span></h4><div data-candles="[[86,88,64,66],[66,68,48,50],[44,48,8,46]]"></div><p>Kleiner Körper oben, langer unterer Docht nach einem Fall. Verkäufer haben gedrückt, Käufer alles zurückgeholt.</p></div>
+    <div class="card"><h4>Shooting Star <span class="pill d">bärisch</span></h4><div data-candles="[[20,36,18,34],[34,52,32,50],[54,94,52,55]]"></div><p>Kleiner Körper unten, langer oberer Docht nach einem Anstieg. Käufer wurden oben abgewiesen.</p></div>
+    <div class="card"><h4>Doji <span class="pill n">neutral</span></h4><div data-candles="[[50,80,20,50.6]]"></div><p>Eröffnung und Schluss fast gleich. Unentschlossenheit, oft vor einer Wende oder einem Ausbruch.</p></div>
+    <div class="card"><h4>Bullish Engulfing <span class="pill u">bullisch</span></h4><div data-candles="[[78,80,60,62],[58,60,42,44],[42,76,40,74]]"></div><p>Eine grüne Kerze verschluckt den Körper der vorherigen roten komplett. Starker Käuferwechsel.</p></div>
+    <div class="card"><h4>Bearish Engulfing <span class="pill d">bärisch</span></h4><div data-candles="[[24,42,22,40],[42,60,40,58],[60,62,26,28]]"></div><p>Eine rote Kerze verschluckt die vorherige grüne. Verkäufer übernehmen.</p></div>
+  </div>
+
+  <h3>Chartformationen</h3>
+  <div class="grid2">
+    <div class="card"><h4>Doppelboden <span class="pill u">Umkehr ↑</span></h4><div data-poly="5,12 30,58 55,32 80,58 110,6" data-level="32"></div><p>Zwei Tiefs auf gleicher Höhe (W-Form). Bestätigt erst, wenn der Kurs über die Nackenlinie zwischen den Tiefs steigt.</p></div>
+    <div class="card"><h4>Doppeltop <span class="pill d">Umkehr ↓</span></h4><div data-poly="5,62 30,14 55,40 80,14 110,66" data-level="40"></div><p>Zwei Hochs auf gleicher Höhe (M-Form). Bestätigt beim Bruch unter die Nackenlinie.</p></div>
+    <div class="card"><h4>Schulter-Kopf-Schulter <span class="pill d">Umkehr ↓</span></h4><div data-poly="5,62 22,30 36,46 56,8 76,46 90,30 112,66" data-level="46"></div><p>Drei Hochs, das mittlere am höchsten. Gilt als eines der zuverlässigeren Umkehrsignale nach Aufwärtstrends.</p></div>
+    <div class="card"><h4>Aufsteigendes Dreieck <span class="pill u">Ausbruch ↑</span></h4><div data-poly="5,62 24,16 38,50 58,16 70,36 86,16 112,2" data-level="16"></div><p>Gleiche Hochs, steigende Tiefs. Käufer werden ungeduldiger, Ausbruch nach oben ist wahrscheinlicher.</p></div>
+    <div class="card"><h4>Bullenflagge <span class="pill u">Fortsetzung</span></h4><div data-poly="5,66 34,16 46,26 56,19 68,31 80,24 112,2"></div><p>Steiler Anstieg, dann leicht fallende Konsolidierung. Oft geht es danach in Trendrichtung weiter.</p></div>
+  </div>
+
+  <div class="box pro"><span class="tag">Kontext schlägt Muster</span><p>Ein Hammer mitten im Nirgendwo ist wertlos. Ein Hammer genau auf einer Tages-Supportzone, im übergeordneten Aufwärtstrend, mit erhöhtem Volumen: Das ist ein Setup. Profis kombinieren immer Zone + Trend + Signal.</p></div>
+
+  <div class="quiz" data-quiz="muster"></div>
+</section>
+
+<!-- ============ INDIKATOREN ============ -->
+<section class="mod" data-mod="indikatoren" hidden>
+  <span class="eyebrow">Modul 5 · 15 Min</span>
+  <h2>Indikatoren</h2>
+  <p class="lede">Indikatoren sind Rechenformeln aus dem Kurs. Sie zeigen nichts, was nicht schon im Chart steckt, machen es aber leichter sichtbar.</p>
+
+  <h3>Gleitende Durchschnitte (MA)</h3>
+  <p>Der Durchschnitt der letzten X Schlusskurse als Linie. <b>SMA</b> gewichtet alle gleich, <b>EMA</b> reagiert schneller auf neue Kurse.</p>
+  <ul>
+    <li><b>20er:</b> kurzfristiger Trend. In starken Trends laufen Rücksetzer oft bis hierhin.</li>
+    <li><b>50er:</b> mittelfristiger Trend.</li>
+    <li><b>200er im Tageschart:</b> die Linie, auf die die ganze Börse schaut. Kurs darüber und Linie steigend: langfristig gesund.</li>
+    <li><b>Golden Cross:</b> 50er kreuzt 200er nach oben. <b>Death Cross:</b> nach unten. Beides sind langsame Signale.</li>
+  </ul>
+
+  <h3>RSI (Relative-Stärke-Index)</h3>
+  <p>Schwankt zwischen 0 und 100. Über 70 gilt ein Markt als überkauft, unter 30 als überverkauft. Aber: In einem starken Trend kann der RSI wochenlang über 70 bleiben. Ein hoher RSI allein ist kein Shortsignal.</p>
+  <p>Stärker ist die <b>Divergenz</b>: Der Kurs macht ein neues Hoch, der RSI nicht. Das zeigt, dass der Bewegung die Kraft ausgeht.</p>
+
+  <figure class="chart" data-chart='{"sr":false,"tl":false,"ma20":true,"ma50":true,"rsi":true}' data-toggles="ma20,ma50,rsi,sr" style="margin:0">
+    <div class="togs"></div>
+    <canvas aria-label="Beispielchart mit gleitenden Durchschnitten und RSI"></canvas>
+    <figcaption>Gleicher Übungschart mit 20er- und 50er-Durchschnitt und RSI(14). Achte darauf, wie der RSI im Seitwärtsbereich zwischen 30 und 70 pendelt und im Aufwärtstrend lange hoch bleibt.</figcaption>
+  </figure>
+
+  <h3>MACD</h3>
+  <p>Zeigt den Abstand zwischen zwei EMAs (meist 12 und 26) plus eine Signallinie. Kreuzt der MACD die Signallinie nach oben, gewinnt der Aufwärtsschwung an Fahrt. Gut als Bestätigung, schlecht als alleiniges Signal, weil er hinterherläuft.</p>
+
+  <div class="box xtb"><span class="tag">In der XTB-App</span><p>Im Chart über das Indikator-Menü hinzufügen. Starte mit EMA 20, SMA 200 und RSI 14. Mehr als drei Indikatoren gleichzeitig machen dich langsamer, nicht besser.</p></div>
+
+  <div class="quiz" data-quiz="indikatoren"></div>
+</section>
+
+<!-- ============ ORDERS ============ -->
+<section class="mod" data-mod="orders" hidden>
+  <span class="eyebrow">Modul 6 · 20 Min</span>
+  <h2>Ordertypen &amp; Automatik in XTB</h2>
+  <p class="lede">Hier stellst du ein, wann XTB automatisch für dich kauft und verkauft. Wer das beherrscht, muss nicht vor dem Chart sitzen.</p>
+
+  <h3>Die Ordertypen</h3>
+  <div class="grid2">
+    <div class="card"><h4>Market</h4><p>Sofort zum aktuellen Kurs. Schnell, aber du zahlst den vollen Spread und bei hektischen Märkten evtl. einen schlechteren Preis.</p></div>
+    <div class="card"><h4>Limit</h4><p>„Nur zu diesem Preis oder besser.“ Buy Limit liegt <b>unter</b> dem Kurs (günstig kaufen), Sell Limit <b>über</b> dem Kurs.</p></div>
+    <div class="card"><h4>Stop (Einstieg)</h4><p>Buy Stop liegt <b>über</b> dem Kurs und kauft beim Ausbruch. Sell Stop liegt <b>unter</b> dem Kurs und shortet beim Bruch nach unten.</p></div>
+    <div class="card"><h4>Stop-Loss (SL)</h4><p>Schließt deine Position automatisch, wenn der Kurs gegen dich läuft. Pflicht bei jedem Trade.</p></div>
+    <div class="card"><h4>Take-Profit (TP)</h4><p>Schließt automatisch im Gewinn, wenn dein Ziel erreicht ist. Nimmt dir die Gier-Entscheidung ab.</p></div>
+    <div class="card"><h4>Trailing Stop</h4><p>Ein Stop, der dem Kurs im festen Abstand folgt, wenn er für dich läuft. Sichert Gewinne in Trends.</p></div>
+  </div>
+
+  <h3>Was willst du erreichen?</h3>
+  <div class="tbl"><table>
+    <tr><th>Ich will …</th><th>Ordertyp</th><th>Beispiel</th></tr>
+    <tr><td>am Support günstiger einsteigen</td><td>Buy Limit</td><td>Kurs 52 €, Support bei 48 € → Buy Limit 48,20 €</td></tr>
+    <tr><td>erst beim Ausbruch kaufen</td><td>Buy Stop</td><td>Resistance 55 € → Buy Stop 55,40 €</td></tr>
+    <tr><td>an der Resistance short gehen</td><td>Sell Limit</td><td>Nur CFD</td></tr>
+    <tr><td>Verlust begrenzen</td><td>Stop-Loss</td><td>Unter die Supportzone</td></tr>
+    <tr><td>Gewinn automatisch sichern</td><td>Take-Profit</td><td>Vor die nächste Resistance</td></tr>
+    <tr><td>Trend laufen lassen</td><td>Trailing Stop</td><td>Abstand an Schwankung anpassen</td></tr>
+    <tr><td>jeden Monat automatisch investieren</td><td>Investmentplan</td><td>ETF-Sparplan in der App</td></tr>
+    <tr><td>benachrichtigt werden, nicht handeln</td><td>Preisalarm</td><td>Alarm an der Zone setzen</td></tr>
+  </table></div>
+
+  <h3>So setzt du einen Trade mit SL und TP</h3>
+  <ol class="steps">
+    <li><span>Instrument suchen und Kaufen (Long) oder Verkaufen (Short) antippen.</span></li>
+    <li><span>Ordertyp wählen: sofort (Market) oder als Pending Order (Limit/Stop) mit Wunschpreis.</span></li>
+    <li><span>Volumen eintragen. Die App zeigt dir den Positionswert und die benötigte Margin.</span></li>
+    <li><span>Stop-Loss und Take-Profit aktivieren und Preise eintragen. XTB zeigt dir den möglichen Verlust und Gewinn in Euro an. Diesen Betrag mit deinem Positionsgrößenrechner (Modul 8) abgleichen.</span></li>
+    <li><span>Alles prüfen, dann bestätigen. Offene Positionen und wartende Orders findest du im Portfolio-Bereich, dort kannst du SL/TP nachträglich ändern.</span></li>
+  </ol>
+  <div class="box xtb"><span class="tag">Wichtig bei XTB</span><p>Die Bezeichnungen unterscheiden sich je nach App-Version und Instrument leicht. Bei echten Aktien und ETFs stehen nicht alle Ordertypen zur Verfügung wie bei CFDs. Teste jede Funktion zuerst im Demokonto.</p></div>
+
+  <div class="box risk"><span class="tag">Stop-Loss ist kein garantierter Preis</span><p>Öffnet ein Markt mit einer Kurslücke (Gap) unter deinem Stop, wird zum nächsten verfügbaren Kurs geschlossen. Das heißt Slippage. Deshalb: Bei Aktien nicht mit voller Größe über Quartalszahlen halten, bei Rohstoffen über das Wochenende Positionsgröße reduzieren.</p></div>
+
+  <div class="quiz" data-quiz="orders"></div>
+</section>
+
+<!-- ============ LONG / SHORT ============ -->
+<section class="mod" data-mod="long-short" hidden>
+  <span class="eyebrow">Modul 7 · 22 Min</span>
+  <h2>Long, Short &amp; Hebel</h2>
+  <p class="lede">Mit CFDs kannst du auf steigende und fallende Kurse setzen, mit Hebel. Das ist das schärfste Werkzeug im Kasten, und es schneidet in beide Richtungen.</p>
+
+  <div class="grid2">
+    <div class="card"><h4>Long <span class="pill u">steigend</span></h4><p>Du kaufst jetzt und verkaufst später teurer. Gewinn = Verkaufskurs minus Kaufkurs. Geht mit echten Aktien und CFDs.</p></div>
+    <div class="card"><h4>Short <span class="pill d">fallend</span></h4><p>Du verkaufst zuerst und kaufst später günstiger zurück. Gewinn = Verkaufskurs minus Rückkaufkurs. Bei XTB nur per CFD.</p></div>
+  </div>
+
+  <h3>Hebel und Margin</h3>
+  <p>Mit Hebel bewegst du eine größere Position, als du Geld hinterlegst. Das hinterlegte Geld ist die <b>Margin</b>. Bei Hebel 1:10 reichen 30 € Margin für eine Position im Wert von 300 €. Gewinne <i>und</i> Verluste werden aus den 300 € berechnet.</p>
+  <div class="tbl"><table>
+    <tr><th>Instrument</th><th>Max. Hebel für Privatkunden (EU)</th><th>Margin</th></tr>
+    <tr><td>Wichtige Währungspaare</td><td class="num">1:30</td><td class="num">3,33 %</td></tr>
+    <tr><td>Gold, große Indizes (DAX, S&amp;P 500)</td><td class="num">1:20</td><td class="num">5 %</td></tr>
+    <tr><td>Andere Rohstoffe (Öl, Erdgas), kleinere Indizes</td><td class="num">1:10</td><td class="num">10 %</td></tr>
+    <tr><td>Einzelaktien als CFD</td><td class="num">1:5</td><td class="num">20 %</td></tr>
+    <tr><td>Kryptowährungen</td><td class="num">1:2</td><td class="num">50 %</td></tr>
+  </table></div>
+  <ul>
+    <li><b>Margin Close-out:</b> Fällt dein Kontokapital auf 50 % der benötigten Margin, schließt XTB Positionen automatisch. Das ist deine „Liquidation“ wie bei Binance.</li>
+    <li><b>Negativsaldoschutz:</b> Als Privatkunde kannst du nicht mehr verlieren, als auf dem Konto ist.</li>
+    <li><b>Swap:</b> Hältst du eine CFD-Position über Nacht, fallen Finanzierungskosten an (oder selten Gutschriften). Für Trades über Wochen frisst das Rendite.</li>
+    <li><b>Rollover:</b> Rohstoff-CFDs basieren oft auf Terminkontrakten. Beim monatlichen Wechsel wird der Kurs angepasst. Schau dir die Hinweise zum Instrument in der App an.</li>
+  </ul>
+
+  <div class="calc" id="levCalc">
+    <h4>Hebel-Rechner</h4>
+    <div class="fields">
+      <label for="lev-m">Eingesetzte Margin (€)<input id="lev-m" type="number" inputmode="decimal" value="30" min="0" step="1"></label>
+      <label for="lev-x">Hebel<select id="lev-x"><option value="1">1:1 (ohne)</option><option value="2">1:2</option><option value="5">1:5</option><option value="10" selected>1:10</option><option value="20">1:20</option><option value="30">1:30</option></select></label>
+      <label for="lev-d">Richtung<select id="lev-d"><option value="1">Long</option><option value="-1">Short</option></select></label>
+      <label for="lev-mv">Kursbewegung in % (minus = fällt)<input id="lev-mv" type="number" inputmode="decimal" value="-5" step="0.5"></label>
+    </div>
+    <div class="out" id="levOut"></div>
+  </div>
+
+  <h3>Praxisbeispiel: Erdgas Long</h3>
+  <p>Erdgas (<code>NATGAS</code>, US-Preis Henry Hub in USD) ist einer der schwankungsfreudigsten Märkte überhaupt. Tagesbewegungen von 5 % und mehr sind normal. Perfekt, um Analyse zu lernen, gefährlich, wenn du zu groß handelst.</p>
+  <h4>Was den Gaspreis bewegt</h4>
+  <ul>
+    <li><b>Wetter:</b> Kälte im Winter und Hitze im Sommer erhöhen die Nachfrage. Wetterprognosen bewegen den Preis teils stärker als Daten.</li>
+    <li><b>Speicherbericht der EIA:</b> jeden Donnerstag um 16:30 Uhr deutscher Zeit. Weniger eingelagert als erwartet treibt den Preis, mehr drückt ihn. Rund um diese Uhrzeit springt der Kurs oft.</li>
+    <li><b>Saison:</b> Ab Herbst steigt die Nachfrage für den Winter, im Frühjahr sinkt sie.</li>
+    <li><b>LNG-Exporte und Produktion:</b> Mehr Export stützt den US-Preis, Rekordförderung drückt ihn.</li>
+  </ul>
+  <h4>Ablauf eines sauberen Long-Trades</h4>
+  <ol class="steps">
+    <li><span><b>D1:</b> Ist der Trend steigend oder bildet sich an einer starken Supportzone ein Boden?</span></li>
+    <li><span><b>H4:</b> Supportzone einzeichnen, z.&nbsp;B. 3,38 bis 3,45 USD. Resistance darüber als Ziel, z.&nbsp;B. 3,80 USD.</span></li>
+    <li><span><b>Signal abwarten:</b> Hammer oder Bullish Engulfing in der Zone (H1 oder H4).</span></li>
+    <li><span><b>Order:</b> Long mit Stop-Loss knapp unter der Zone (3,33) und Take-Profit vor der Resistance (3,78).</span></li>
+    <li><span><b>Größe:</b> mit dem Positionsgrößenrechner so wählen, dass ein Stop-Treffer maximal 2 € kostet.</span></li>
+    <li><span><b>Kalender:</b> Kein Einstieg kurz vor dem Donnerstag-Bericht, außer du willst bewusst darauf setzen.</span></li>
+  </ol>
+  <div class="box risk"><span class="tag">Rechne mit</span><p>20 € Margin, Hebel 1:10, Position 200 €. Erdgas fällt an einem Tag um 6 %. Das sind 12 € Verlust, also 60 % deiner Margin, und der Close-out liegt schon bei 5 % Bewegung gegen dich. Ohne Stop und ohne Positionsgröße bist du in Gas nach einem schlechten Tag raus.</p></div>
+
+  <div class="quiz" data-quiz="long-short"></div>
+</section>
+
+<!-- ============ RISIKO ============ -->
+<section class="mod" data-mod="risiko" hidden>
+  <span class="eyebrow">Modul 8 · 20 Min</span>
+  <h2>Risikomanagement</h2>
+  <p class="lede">Das Modul, das über Erfolg entscheidet. Analyse sagt dir, wo du einsteigst. Risikomanagement sorgt dafür, dass du nach 20 Fehlern noch im Spiel bist.</p>
+
+  <h3>Die 1-%-Regel</h3>
+  <p>Profis riskieren pro Trade 0,5 bis 2 % ihres Kontos. Mit 100 € Lernkonto sind das 1 bis 2 €. Das wirkt lächerlich klein, aber genau darum geht es jetzt: Du bezahlst Lerngeld in Mini-Beträgen und sammelst Erfahrung in vielen Trades.</p>
+  <div class="tbl"><table>
+    <tr><th>Verluste in Folge</th><th>Bei 1 % Risiko</th><th>Bei 5 % Risiko</th><th>Bei 10 % Risiko</th></tr>
+    <tr><td class="num">5</td><td class="num">−4,9 %</td><td class="num">−22,6 %</td><td class="num">−41,0 %</td></tr>
+    <tr><td class="num">10</td><td class="num">−9,6 %</td><td class="num">−40,1 %</td><td class="num">−65,1 %</td></tr>
+    <tr><td class="num">20</td><td class="num">−18,2 %</td><td class="num">−64,2 %</td><td class="num">−87,8 %</td></tr>
+  </table></div>
+  <p>Zehn Verluste am Stück passieren jedem irgendwann. Mit 1 % bist du danach noch zu 90 % da, mit 10 % zu einem Drittel.</p>
+
+  <h3>Positionsgröße statt Bauchgefühl</h3>
+  <p>Du entscheidest nicht „Ich kaufe für 50 €“, sondern: <b>Wo ist mein Stop, und wie viel darf mich dieser Stop kosten?</b> Daraus ergibt sich die Größe.</p>
+  <div class="calc" id="posCalc">
+    <h4>Positionsgrößenrechner</h4>
+    <div class="fields">
+      <label for="pos-acc">Kontostand (€)<input id="pos-acc" type="number" inputmode="decimal" value="100" min="0"></label>
+      <label for="pos-r">Risiko pro Trade (%)<input id="pos-r" type="number" inputmode="decimal" value="2" min="0" step="0.5"></label>
+      <label for="pos-e">Einstiegskurs<input id="pos-e" type="number" inputmode="decimal" value="3.45" step="0.01"></label>
+      <label for="pos-s">Stop-Loss-Kurs<input id="pos-s" type="number" inputmode="decimal" value="3.33" step="0.01"></label>
+    </div>
+    <div class="out" id="posOut"></div>
+  </div>
+
+  <h3>Chance-Risiko-Verhältnis (CRV)</h3>
+  <p>Wie viel kannst du gewinnen im Verhältnis zu dem, was du riskierst? Bei einem CRV von 1:2 gewinnst du im Erfolgsfall doppelt so viel, wie du im Verlustfall verlierst. Dann darfst du sogar öfter falsch als richtig liegen.</p>
+  <div class="calc" id="crvCalc">
+    <h4>CRV-Rechner</h4>
+    <div class="fields">
+      <label for="crv-e">Einstieg<input id="crv-e" type="number" inputmode="decimal" value="3.45" step="0.01"></label>
+      <label for="crv-s">Stop-Loss<input id="crv-s" type="number" inputmode="decimal" value="3.33" step="0.01"></label>
+      <label for="crv-t">Kursziel (Take-Profit)<input id="crv-t" type="number" inputmode="decimal" value="3.78" step="0.01"></label>
+    </div>
+    <div class="out" id="crvOut"></div>
+  </div>
+
+  <h3>Erwartungswert: Wie Profis denken</h3>
+  <p>Profis messen in <b>R</b>, also in Vielfachen ihres Risikos pro Trade. Erwartungswert = Trefferquote × Gewinn in R − Verlustquote × 1 R.</p>
+  <div class="tbl"><table>
+    <tr><th>Trefferquote</th><th>CRV 1:1</th><th>CRV 1:2</th><th>CRV 1:3</th></tr>
+    <tr><td class="num">30 %</td><td class="num neg">−0,40 R</td><td class="num neg">−0,10 R</td><td class="num pos">+0,20 R</td></tr>
+    <tr><td class="num">40 %</td><td class="num neg">−0,20 R</td><td class="num pos">+0,20 R</td><td class="num pos">+0,60 R</td></tr>
+    <tr><td class="num">50 %</td><td class="num">±0,00 R</td><td class="num pos">+0,50 R</td><td class="num pos">+1,00 R</td></tr>
+    <tr><td class="num">60 %</td><td class="num pos">+0,20 R</td><td class="num pos">+0,80 R</td><td class="num pos">+1,40 R</td></tr>
+  </table></div>
+
+  <div class="box pro"><span class="tag">Deine festen Regeln</span>
+    <ul>
+      <li>Stop-Loss wird vor dem Einstieg gesetzt und nie weiter weggeschoben.</li>
+      <li>Nur Trades mit CRV von mindestens 1:2.</li>
+      <li>Maximal 2 Trades pro Tag, nach 2 Verlusten an einem Tag ist Schluss.</li>
+      <li>Nie in eine Verlustposition nachkaufen.</li>
+    </ul>
+  </div>
+
+  <div class="quiz" data-quiz="risiko"></div>
+</section>
+
+<!-- ============ AKTIENWAHL ============ -->
+<section class="mod" data-mod="aktienwahl" hidden>
+  <span class="eyebrow">Modul 9 · 18 Min</span>
+  <h2>Welche Aktien Sinn machen</h2>
+  <p class="lede">Es gibt keine Liste mit „den richtigen Aktien“. Es gibt aber klare Kriterien, und die unterscheiden sich je nachdem, ob du investierst oder tradest.</p>
+
+  <h3>Zwei Töpfe trennen</h3>
+  <div class="grid2">
+    <div class="card"><h4>Kern: Investieren <span class="pill u">Jahre</span></h4><p>Breite ETFs per Sparplan, ergänzt um wenige Qualitätsaktien. Kein Hebel, kein Stop im Minutentakt. Hier entsteht Vermögen.</p></div>
+    <div class="card"><h4>Satellit: Trading <span class="pill n">Tage</span></h4><p>Kleiner Teil des Geldes, klare Regeln, Stop-Loss, Journal. Hier lernst du Märkte und kannst Zusatzrendite erzielen.</p></div>
+  </div>
+
+  <h3>Kennzahlen für langfristige Aktien</h3>
+  <div class="tbl"><table>
+    <tr><th>Kennzahl</th><th>Was sie sagt</th><th>Worauf achten</th></tr>
+    <tr><td>Umsatzwachstum</td><td>Wächst das Geschäft?</td><td>Über mehrere Jahre stabil steigend</td></tr>
+    <tr><td>Gewinnmarge</td><td>Wie viel vom Umsatz bleibt übrig?</td><td>Hoch und nicht fallend im Branchenvergleich</td></tr>
+    <tr><td>Freier Cashflow</td><td>Echtes Geld nach Investitionen</td><td>Dauerhaft positiv</td></tr>
+    <tr><td>Verschuldung</td><td>Wie abhängig von Krediten?</td><td>Schulden im Verhältnis zum Gewinn tragbar</td></tr>
+    <tr><td>KGV</td><td>Kurs ÷ Gewinn je Aktie</td><td>Nur innerhalb einer Branche vergleichen</td></tr>
+    <tr><td>Burggraben</td><td>Schutz vor Konkurrenz</td><td>Marke, Netzwerk, Patente, Wechselkosten</td></tr>
+  </table></div>
+
+  <h3>Kriterien für Trading-Werte</h3>
+  <ul>
+    <li><b>Liquidität:</b> Hohes Handelsvolumen, enger Spread, saubere Ausführung. Große Indizes und Schwergewichte aus DAX, S&amp;P 500 und Nasdaq 100 sind ideale Übungsobjekte.</li>
+    <li><b>Saubere Charts:</b> Klare Zonen, die respektiert werden. Wenn du im Chart nichts erkennst, lass den Wert weg.</li>
+    <li><b>Termine kennen:</b> Quartalszahlen können 10 % Kurslücke bringen. Vor dem Einstieg im Kalender der App prüfen.</li>
+    <li><b>Eine Handvoll Werte:</b> Lieber 5 Märkte richtig kennen als 50 oberflächlich. Profis haben eine feste Watchlist.</li>
+  </ul>
+
+  <div class="box risk"><span class="tag">Finger weg</span>
+    <ul>
+      <li>Pennystocks und Werte mit kaum Umsatz.</li>
+      <li>Aktien, die in wenigen Tagen +100 % gemacht haben, weil sie gerade auf TikTok laufen.</li>
+      <li>„Signale“ aus Telegram-Gruppen. Wer wirklich profitabel handelt, verkauft keine Signale für 49 € im Monat.</li>
+    </ul>
+  </div>
+
+  <h3>Checkliste vor jedem Aktienkauf</h3>
+  <ul class="check">
+    <li><label><input type="checkbox" data-store="ak1"><span>Ich kann in zwei Sätzen erklären, womit die Firma Geld verdient.</span></label></li>
+    <li><label><input type="checkbox" data-store="ak2"><span>Umsatz und Gewinn sind über drei bis fünf Jahre gewachsen.</span></label></li>
+    <li><label><input type="checkbox" data-store="ak3"><span>Der Kurs liegt im Tageschart über dem 200er-Durchschnitt oder an einer starken Supportzone.</span></label></li>
+    <li><label><input type="checkbox" data-store="ak4"><span>Ich kenne den Termin der nächsten Quartalszahlen.</span></label></li>
+    <li><label><input type="checkbox" data-store="ak5"><span>Ich weiß vorher, bei welchem Kurs ich falsch liege.</span></label></li>
+  </ul>
+  <p style="font-size:.9rem;color:var(--muted)">Recherche: Investor-Relations-Seite der Firma, Kennzahlen bei Finanzportalen wie onvista oder finanzen.net, Charts zusätzlich bei TradingView.</p>
+
+  <div class="quiz" data-quiz="aktienwahl"></div>
+</section>
+
+<!-- ============ PSYCHOLOGIE ============ -->
+<section class="mod" data-mod="psychologie" hidden>
+  <span class="eyebrow">Modul 10 · 15 Min</span>
+  <h2>Psychologie &amp; Trading-Journal</h2>
+  <p class="lede">Die meisten scheitern nicht an der Analyse, sondern an sich selbst. Gute Trader haben Systeme, die ihre Emotionen aushebeln.</p>
+
+  <div class="grid2">
+    <div class="card"><h4>FOMO</h4><p>Angst, eine Bewegung zu verpassen. Du kaufst nach dem Anstieg, also zum schlechtesten Preis. Gegenmittel: Nur Setups an Zonen, sonst Alarm setzen und warten.</p></div>
+    <div class="card"><h4>Revenge Trading</h4><p>Nach einem Verlust sofort größer handeln, um es „zurückzuholen“. Der schnellste Weg, ein Konto zu leeren. Gegenmittel: 2-Verluste-Tagesgrenze.</p></div>
+    <div class="card"><h4>Verluste laufen lassen</h4><p>Gewinne zu früh mitnehmen, Verluste aussitzen. Genau umgekehrt wäre richtig. Gegenmittel: SL und TP vorher setzen, nicht anfassen.</p></div>
+    <div class="card"><h4>Overtrading</h4><p>Langeweile wird zu Trades. Jeder Trade kostet Spread. Gegenmittel: Nur handeln, wenn dein Alarm an einer Zone auslöst.</p></div>
+  </div>
+
+  <h3>Dein Trading-Journal</h3>
+  <p>Ohne Journal lernst du nichts, weil du dich an Gewinne erinnerst und Verluste verdrängst. Lege dir eine Tabelle an (Excel, Notion oder Notizbuch) mit diesen Spalten:</p>
+  <div class="tbl"><table>
+    <tr><th>Datum</th><th>Markt</th><th>L/S</th><th>Setup / Grund</th><th>Einstieg</th><th>SL</th><th>TP</th><th>Ergebnis (R)</th><th>Gefühl</th><th>Lektion</th></tr>
+    <tr><td class="num">12.11.</td><td>NATGAS</td><td>L</td><td>Hammer an H4-Support, D1-Aufwärtstrend</td><td class="num">3,45</td><td class="num">3,33</td><td class="num">3,78</td><td class="num pos">+2,7</td><td>ruhig</td><td>Geduld bis zum Signal hat sich gelohnt</td></tr>
+    <tr><td class="num">13.11.</td><td>DE40</td><td>S</td><td>„Sah zu hoch aus“</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num neg">−1,0</td><td>ungeduldig</td><td>Kein Setup = kein Trade</td></tr>
+  </table></div>
+  <p>Am Sonntag 20 Minuten Wochenreview: Welche Setups funktionieren? Wann brichst du deine Regeln? Nach 30 Trades rechnest du Trefferquote, durchschnittliches R und Erwartungswert aus.</p>
+
+  <div class="quiz" data-quiz="psychologie"></div>
+</section>
+
+<!-- ============ STEUERN ============ -->
+<section class="mod" data-mod="steuern" hidden>
+  <span class="eyebrow">Modul 11 · 10 Min</span>
+  <h2>Steuern mit XTB</h2>
+  <p class="lede">XTB ist nicht „steuereinfach“. Das ist kein Drama, aber du musst es einmal im Jahr selbst erledigen.</p>
+
+  <ul>
+    <li><b>Keine automatische Abgeltungsteuer:</b> XTB führt keine deutsche Steuer ab. Deine Gewinne, Verluste, Dividenden und Zinsen trägst du in der <b>Anlage KAP</b> als Kapitalerträge ein, die nicht dem inländischen Steuerabzug unterlegen haben.</li>
+    <li><b>Steuersatz:</b> 25 % Abgeltungsteuer plus Solidaritätszuschlag, zusammen 26,375 %, plus ggf. Kirchensteuer.</li>
+    <li><b>Sparerpauschbetrag:</b> 1.000 € pro Jahr, bei Zusammenveranlagung 2.000 €. Einen Freistellungsauftrag gibt es bei XTB nicht, der Freibetrag wird über die Steuererklärung berücksichtigt.</li>
+    <li><b>Verlusttöpfe:</b> Verluste aus Aktienverkäufen darfst du nur mit Gewinnen aus Aktienverkäufen verrechnen. Die frühere 20.000-€-Grenze für Verluste aus Termingeschäften (CFDs) wurde Ende 2024 gestrichen.</li>
+    <li><b>US-Dividenden:</b> 15 % Quellensteuer werden einbehalten und sind auf die deutsche Steuer anrechenbar.</li>
+    <li><b>Unterlagen:</b> Zum Jahresende Transaktionshistorie und Jahresübersicht aus dem Kundenbereich herunterladen und aufheben.</li>
+  </ul>
+
+  <h3>Und deine Kryptos bei Binance?</h3>
+  <p>Echte Kryptowährungen fallen nicht unter die Abgeltungsteuer, sondern unter private Veräußerungsgeschäfte. Verkaufst du nach mehr als einem Jahr Haltedauer, ist der Gewinn steuerfrei. Darunter gilt dein persönlicher Steuersatz, mit einer Freigrenze von 1.000 € Gesamtgewinn pro Jahr. Krypto-CFDs bei XTB sind dagegen Kapitalerträge.</p>
+
+  <div class="box xtb"><span class="tag">Kein Steuerberater</span><p>Das hier ist der Stand nach meinem Wissen. Steuerregeln ändern sich. Bei größeren Beträgen oder vielen CFD-Trades lohnt sich ein Steuerberater oder eine gute Steuersoftware.</p></div>
+
+  <div class="quiz" data-quiz="steuern"></div>
+</section>
+
+<!-- ============ STARTPLAN ============ -->
+<section class="mod" data-mod="startplan" hidden>
+  <span class="eyebrow">Modul 12 · Umsetzung</span>
+  <h2>Dein 100-€-Plan</h2>
+  <p class="lede">Ein klarer Ablauf von null zum ersten Echtgeld-Trade. Hake ab, was erledigt ist. Dein Fortschritt bleibt in diesem Browser gespeichert.</p>
+
+  <div class="box phase">
+    <span class="tag">Phase 1 · Woche 1–2</span>
+    <h4>Grundlagen und Demokonto</h4>
+    <ul class="check">
+      <li><label><input type="checkbox" data-store="p1a"><span>Module 1 bis 6 durcharbeiten und Lernkontrollen bestehen.</span></label></li>
+      <li><label><input type="checkbox" data-store="p1b"><span>Demokonto in der XTB-App aktivieren.</span></label></li>
+      <li><label><input type="checkbox" data-store="p1c"><span>Watchlist mit 5 Märkten anlegen, z.&nbsp;B. DE40, US500, NATGAS, Gold, EURUSD.</span></label></li>
+      <li><label><input type="checkbox" data-store="p1d"><span>Für jeden Markt Support- und Resistance-Zonen im Tageschart einzeichnen.</span></label></li>
+      <li><label><input type="checkbox" data-store="p1e"><span>Jeden Ordertyp einmal im Demo ausprobieren: Market, Limit, Stop, SL, TP, Trailing Stop.</span></label></li>
+    </ul>
+  </div>
+
+  <div class="box phase">
+    <span class="tag">Phase 2 · Woche 3–4</span>
+    <h4>Regeln und 20 Demo-Trades</h4>
+    <ul class="check">
+      <li><label><input type="checkbox" data-store="p2a"><span>Module 7 bis 11 abschließen.</span></label></li>
+      <li><label><input type="checkbox" data-store="p2b"><span>Deine Regeln aufschreiben: Märkte, Zeiteinheiten, Setup, Risiko pro Trade, Tageslimit.</span></label></li>
+      <li><label><input type="checkbox" data-store="p2c"><span>20 Demo-Trades nach Regeln, jeder mit SL und TP, alle im Journal.</span></label></li>
+      <li><label><input type="checkbox" data-store="p2d"><span>Abschlussprüfung mit mindestens 8 von 10 bestanden.</span></label></li>
+    </ul>
+  </div>
+
+  <div class="box phase">
+    <span class="tag">Phase 3 · Monat 2</span>
+    <h4>Echtgeld: 100 €</h4>
+    <div class="tbl"><table>
+      <tr><th>Topf</th><th>Betrag</th><th>Wofür</th><th>Regel</th></tr>
+      <tr><td>Investieren</td><td class="num">60 €</td><td>ETF-Investmentplan oder echte Aktienbruchteile</td><td>Kein Hebel, nicht täglich anschauen</td></tr>
+      <tr><td>Trading</td><td class="num">40 €</td><td>CFDs mit kleinstem Volumen</td><td>Max. 2 € Risiko pro Trade, max. 2 Trades pro Tag</td></tr>
+    </table></div>
+    <ul class="check">
+      <li><label><input type="checkbox" data-store="p3a"><span>Ersten echten Kauf über Limit-Order statt Market ausgeführt.</span></label></li>
+      <li><label><input type="checkbox" data-store="p3b"><span>Ersten CFD-Trade mit SL und TP eröffnet, Größe per Rechner bestimmt.</span></label></li>
+      <li><label><input type="checkbox" data-store="p3c"><span>Jeden Echtgeld-Trade im Journal festgehalten.</span></label></li>
+    </ul>
+  </div>
+
+  <div class="box phase">
+    <span class="tag">Phase 4 · ab Monat 3</span>
+    <h4>Auswerten, dann skalieren</h4>
+    <ul class="check">
+      <li><label><input type="checkbox" data-store="p4a"><span>Nach 30 Echtgeld-Trades: Trefferquote, Ø-R und Erwartungswert ausgerechnet.</span></label></li>
+      <li><label><input type="checkbox" data-store="p4b"><span>Erwartungswert positiv? Erst dann Kapital in kleinen Schritten erhöhen.</span></label></li>
+    </ul>
+  </div>
+
+  <div class="box risk"><span class="tag">Notbremse</span><p>Fällt der Trading-Topf um 50 % (auf 20 €), ist Pause. Zurück ins Demo, Journal auswerten, Regeln anpassen. Kein Nachschießen von Geld, um Verluste auszugleichen.</p></div>
+
+  <h3>Deine tägliche Routine (15 Minuten)</h3>
+  <ol class="steps">
+    <li><span>Wirtschaftskalender in der App prüfen: Zinsentscheide, Inflation, US-Arbeitsmarkt, Quartalszahlen, Gas-Speicherbericht.</span></li>
+    <li><span>Tageschart deiner 5 Märkte ansehen: Hat sich der Trend verändert?</span></li>
+    <li><span>Zonen aktualisieren und Preisalarme direkt an die Zonen setzen.</span></li>
+    <li><span>App schließen. Nur wenn ein Alarm auslöst, wieder reinschauen und prüfen, ob ein Signal kommt.</span></li>
+  </ol>
+</section>
+
+<!-- ============ PRUEFUNG ============ -->
+<section class="mod" data-mod="pruefung" hidden>
+  <span class="eyebrow">Abschluss · 10 Fragen</span>
+  <h2>Abschlussprüfung</h2>
+  <p class="lede">Zehn Fragen quer durch alle Module. Ab 8 richtigen Antworten bist du bereit für Phase 3 deines Plans.</p>
+  <div class="quiz" data-quiz="pruefung" data-pass="0.8"></div>
+</section>
+
+<!-- ============ GLOSSAR ============ -->
+<section class="mod" data-mod="glossar" hidden>
+  <span class="eyebrow">Nachschlagen</span>
+  <h2>Glossar</h2>
+  <p class="lede">Alle Begriffe aus dem Lehrgang auf einen Blick.</p>
+  <label for="glossQ" class="mono" style="color:var(--muted)">Begriff suchen</label>
+  <input id="glossQ" class="gloss-search" type="search" placeholder="z. B. Spread, Margin, Retest">
+  <dl class="gloss" id="gloss"></dl>
+</section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+"use strict";
+const MODS=[
+ {id:"start",t:"Fahrplan",n:"00",min:"5 Min"},
+ {id:"grundlagen",t:"Märkte & Produkte",n:"01",min:"12 Min",quiz:1},
+ {id:"kerzen",t:"Kerzencharts lesen",n:"02",min:"15 Min",quiz:1},
+ {id:"trends",t:"Trend, Support & Resistance",n:"03",min:"20 Min",quiz:1},
+ {id:"muster",t:"Chart- & Kerzenmuster",n:"04",min:"18 Min",quiz:1},
+ {id:"indikatoren",t:"Indikatoren",n:"05",min:"15 Min",quiz:1},
+ {id:"orders",t:"Ordertypen & Automatik",n:"06",min:"20 Min",quiz:1},
+ {id:"long-short",t:"Long, Short & Hebel",n:"07",min:"22 Min",quiz:1},
+ {id:"risiko",t:"Risikomanagement",n:"08",min:"20 Min",quiz:1},
+ {id:"aktienwahl",t:"Welche Aktien Sinn machen",n:"09",min:"18 Min",quiz:1},
+ {id:"psychologie",t:"Psychologie & Journal",n:"10",min:"15 Min",quiz:1},
+ {id:"steuern",t:"Steuern mit XTB",n:"11",min:"10 Min",quiz:1},
+ {id:"startplan",t:"Dein 100-€-Plan",n:"12",min:"Umsetzung"},
+ {id:"pruefung",t:"Abschlussprüfung",n:"13",min:"10 Fragen",quiz:1},
+ {id:"glossar",t:"Glossar",n:"A–Z",min:"Nachschlagen"}
+];
+const QUIZ={
+grundlagen:[
+ {q:"Du kaufst bei XTB Bitcoin. Was besitzt du danach?",o:["Echte Bitcoins, die ich in eine Wallet senden kann","Einen CFD, also einen Vertrag auf die Kursdifferenz","Anteile an einem Bitcoin-ETF"],a:1,e:"Krypto gibt es bei XTB nur als CFD. Du profitierst von der Kursbewegung, besitzt aber keine Coins."},
+ {q:"Was ist der Spread?",o:["Die Differenz zwischen Kauf- und Verkaufskurs","Die monatliche Kontogebühr","Der Zinssatz für den Hebel"],a:0,e:"Der Spread ist die Differenz zwischen Ask und Bid. Bei CFDs ist er die Hauptgebühr, jede Position startet damit leicht im Minus."},
+ {q:"Wofür eignet sich ein breiter ETF am besten?",o:["Für kurzfristige Hebelwetten","Für Short-Trades auf fallende Märkte","Für breit gestreuten, langfristigen Vermögensaufbau"],a:2,e:"Ein ETF bündelt viele Aktien, ist günstig und gestreut. Er ist das Fundament fürs Investieren."}
+],
+kerzen:[
+ {q:"Eine Kerze ist grün. Was bedeutet das?",o:["Das Volumen war besonders hoch","Der Schlusskurs liegt über dem Eröffnungskurs","Der Kurs liegt über dem 200er-Durchschnitt"],a:1,e:"Grün heißt: Am Ende des Zeitraums stand der Kurs höher als am Anfang."},
+ {q:"Am Ende eines Abwärtstrends erscheint eine Kerze mit sehr langem unterem Docht. Was zeigt sie?",o:["Käufer haben tiefe Preise aufgekauft und den Kurs wieder hochgedrückt","Verkäufer dominieren weiterhin klar","Gar nichts, Dochte sind Zufall"],a:0,e:"Ein langer unterer Docht zeigt Ablehnung tieferer Kurse. An einer Supportzone ist das ein mögliches Umkehrsignal."},
+ {q:"Mit welcher Zeiteinheit beginnst du deine Analyse?",o:["M1, um nichts zu verpassen","Egal, Hauptsache Kerzen","Mit der höheren Zeiteinheit, z. B. D1, dann H4 und H1"],a:2,e:"Top-down: Erst das große Bild, dann der Einstieg. Gegen den Trend der höheren Zeiteinheit zu handeln, ist für Einsteiger tabu."}
+],
+trends:[
+ {q:"Woran erkennst du einen Aufwärtstrend?",o:["Höhere Hochs und höhere Tiefs","Mehrere grüne Kerzen hintereinander","Steigendes Volumen"],a:0,e:"Die Struktur entscheidet: Jedes Tief liegt über dem vorherigen, jedes Hoch ebenfalls."},
+ {q:"Eine Resistance wurde nach oben durchbrochen. Was passiert häufig beim Rücklauf zu dieser Zone?",o:["Sie verliert jede Bedeutung","Sie wirkt jetzt als Support (Retest)","Der Kurs fällt immer wieder darunter"],a:1,e:"Rollentausch: Alte Widerstände werden oft zu neuen Unterstützungen. Der Retest ist ein klassischer Einstiegspunkt."},
+ {q:"Wann gilt ein Ausbruch als bestätigt?",o:["Sobald ein Docht kurz über die Zone sticht","Wenn der RSI über 50 steigt","Wenn eine Kerze deiner Zeiteinheit klar über der Zone schließt"],a:2,e:"Dochte allein sind oft Fakeouts. Der Schlusskurs über der Zone zählt."}
+],
+muster:[
+ {q:"Ein Hammer erscheint genau an einer Tages-Supportzone. Was bedeutet das?",o:["Eine mögliche Umkehr nach oben","Ein garantierter Anstieg","Dass der Abwärtstrend sicher weitergeht"],a:0,e:"Muster sind Wahrscheinlichkeiten, keine Garantien. Am Support ist ein Hammer ein ernstzunehmendes Signal, der Stop gehört trotzdem unter die Zone."},
+ {q:"Wo hat ein Kerzenmuster die größte Aussagekraft?",o:["Überall im Chart gleich","An einer wichtigen Zone wie Support oder Resistance","Im Minutenchart"],a:1,e:"Kontext schlägt Muster: Zone + Trend + Signal."},
+ {q:"Wann ist ein Doppelboden bestätigt?",o:["Sobald das zweite Tief erreicht ist","Wenn der RSI unter 30 fällt","Wenn der Kurs über die Nackenlinie zwischen den beiden Tiefs steigt"],a:2,e:"Erst der Bruch der Nackenlinie bestätigt die Formation. Vorher kann es auch ein dritter Test oder ein Bruch nach unten werden."}
+],
+indikatoren:[
+ {q:"Der RSI steht über 70. Was bedeutet das?",o:["Sofort short gehen","Der Markt gilt als überkauft, kann in starken Trends aber lange dort bleiben","Der Trend ist definitiv vorbei"],a:1,e:"Ein hoher RSI ist kein Verkaufssignal. Aussagekräftiger ist eine Divergenz zwischen Kurs und RSI."},
+ {q:"Der Kurs liegt im Tageschart über einem steigenden 200er-Durchschnitt. Was deutet das an?",o:["Einen gesunden langfristigen Aufwärtstrend","Einen Abwärtstrend","Eine Seitwärtsphase"],a:0,e:"Der 200er im Tageschart ist der wichtigste Trendfilter, auf den viele Marktteilnehmer schauen."},
+ {q:"Wie viele Indikatoren solltest du gleichzeitig nutzen?",o:["So viele wie möglich","Gar keine","Zwei bis drei, die sich ergänzen"],a:2,e:"Mehr Indikatoren zeigen dieselbe Information mehrfach und machen dich langsamer."}
+],
+orders:[
+ {q:"Der Kurs steht bei 50 €. Du willst nur kaufen, wenn er auf 45 € fällt. Welcher Ordertyp?",o:["Market","Buy Stop","Buy Limit"],a:2,e:"Buy Limit liegt unter dem aktuellen Kurs und kauft zu diesem Preis oder günstiger."},
+ {q:"Du willst nur kaufen, wenn der Kurs über die Resistance bei 55 € ausbricht. Welcher Ordertyp?",o:["Buy Stop","Buy Limit","Sell Stop"],a:0,e:"Buy Stop liegt über dem Kurs und löst beim Ausbruch aus."},
+ {q:"Garantiert ein normaler Stop-Loss deinen Ausstiegskurs?",o:["Ja, immer exakt","Nein, bei Kurslücken kann schlechter ausgeführt werden","Nur bei echten Aktien"],a:1,e:"Bei Gaps wird zum nächsten verfügbaren Kurs geschlossen. Das nennt man Slippage."}
+],
+"long-short":[
+ {q:"Was bedeutet Short?",o:["Du hältst eine Position nur kurz","Du kaufst eine Aktie besonders günstig","Du profitierst von fallenden Kursen"],a:2,e:"Short heißt: zuerst verkaufen, später günstiger zurückkaufen. Bei XTB nur per CFD."},
+ {q:"30 € Margin, Hebel 1:10, der Kurs bewegt sich 5 % gegen dich. Wie hoch ist der Verlust?",o:["1,50 €","15 €","30 €"],a:1,e:"Die Position ist 300 € groß. 5 % von 300 € sind 15 €, also die Hälfte deiner Margin."},
+ {q:"Was passiert bei XTB, wenn dein Kapital auf 50 % der benötigten Margin fällt?",o:["Nichts, die Position läuft weiter","Positionen werden automatisch geschlossen (Close-out)","Du musst Geld nachschießen, sonst Schulden"],a:1,e:"Das ist der Margin Close-out. Dank Negativsaldoschutz verlierst du als Privatkunde nicht mehr als dein Kontoguthaben."}
+],
+risiko:[
+ {q:"Kontostand 100 €, Risiko 2 % pro Trade. Wie viel darfst du maximal pro Trade verlieren?",o:["2 €","20 €","0,20 €"],a:0,e:"2 % von 100 € sind 2 €. Daraus und aus dem Stop-Abstand ergibt sich die Positionsgröße."},
+ {q:"Bei einem CRV von 1:2: Welche Trefferquote brauchst du mindestens, um ohne Kosten bei null zu landen?",o:["50 %","Etwa 33 %","67 %"],a:1,e:"1 ÷ (1 + 2) = 33,3 %. Darüber verdienst du Geld, obwohl du öfter falsch als richtig liegst."},
+ {q:"Du bist im Minus, der Kurs nähert sich deinem Stop. Was machst du?",o:["Stop weiter weg schieben","Nachkaufen, um den Schnitt zu senken","Stop stehen lassen"],a:2,e:"Der Stop markiert, wo deine Idee falsch ist. Ihn zu verschieben, ist der häufigste Grund für große Verluste."}
+],
+aktienwahl:[
+ {q:"Warum solltest du als Trader liquide Werte bevorzugen?",o:["Enge Spreads, saubere Charts und gute Ausführung","Weil sie immer steigen","Weil darauf keine Steuern anfallen"],a:0,e:"Hohe Liquidität senkt Kosten und Slippage, und Zonen werden zuverlässiger respektiert."},
+ {q:"Was sagt dir das KGV?",o:["Das Kursziel der Analysten","Den Kurs im Verhältnis zum Gewinn je Aktie","Die Höhe der Dividende"],a:1,e:"Kurs ÷ Gewinn je Aktie. Sinnvoll nur im Vergleich innerhalb einer Branche."},
+ {q:"Eine Aktie ist in 5 Tagen um 150 % gestiegen und überall auf TikTok. Was macht ein Profi?",o:["Sofort mit Hebel einsteigen","Beobachten oder ignorieren, statt aus FOMO zu kaufen","Alles Geld reinstecken, solange es noch läuft"],a:1,e:"Nach solchen Anstiegen ist das Risiko eines Absturzes enorm. Ohne Zone und Stop gibt es keinen Trade."}
+],
+psychologie:[
+ {q:"Was ist Revenge Trading?",o:["Nach einem Verlust sofort größer handeln, um es zurückzuholen","Short auf die Konkurrenz eines Unternehmens","Alte Trades im Journal nachlesen"],a:0,e:"Emotionale Trades nach Verlusten sind der schnellste Weg, ein Konto zu leeren. Die Tagesgrenze schützt dich."},
+ {q:"Wann legst du Stop-Loss und Take-Profit fest?",o:["Nachdem der Kurs sich bewegt hat","Gar nicht, ich schaue spontan","Vor dem Einstieg"],a:2,e:"Vor dem Einstieg bist du rational. Danach verzerren Hoffnung und Angst jede Entscheidung."},
+ {q:"Was gehört in ein Trading-Journal?",o:["Nur die Gewinne","Grund, Einstieg, Stop, Ziel, Ergebnis in R, Gefühl und Lektion","Nur der Kontostand am Monatsende"],a:1,e:"Nur mit vollständigen Daten erkennst du, welche Setups funktionieren und wann du Regeln brichst."}
+],
+steuern:[
+ {q:"Führt XTB die deutsche Abgeltungsteuer automatisch ab?",o:["Ja, wie eine deutsche Bank","Nein, du trägst alles selbst in der Anlage KAP ein","Nur auf Dividenden"],a:1,e:"XTB ist nicht steuereinfach. Einmal im Jahr musst du die Erträge in der Steuererklärung angeben."},
+ {q:"Wie hoch ist die Steuer auf Kapitalerträge ohne Kirchensteuer ungefähr?",o:["Rund 26,4 %","42 %","15 %"],a:0,e:"25 % Abgeltungsteuer plus 5,5 % Soli darauf ergibt 26,375 %."},
+ {q:"Du hast echte Kryptos bei Binance gekauft und verkaufst sie privat nach 14 Monaten mit Gewinn. Was gilt?",o:["26,4 % Abgeltungsteuer","Immer dein persönlicher Steuersatz","Steuerfrei, weil die Haltedauer über einem Jahr liegt"],a:2,e:"Echte Kryptos sind private Veräußerungsgeschäfte. Nach über einem Jahr Haltedauer ist der Gewinn steuerfrei."}
+],
+pruefung:[
+ {q:"Du gehst bei Erdgas Long an einer Supportzone. Wo gehört der Stop-Loss hin?",o:["Knapp unter die Supportzone","Über die nächste Resistance","Ein Stop ist bei Rohstoffen nicht nötig"],a:0,e:"Fällt der Kurs unter den Support, ist deine Idee falsch. Genau dort gehörst du raus."},
+ {q:"Eine Kerze hat einen winzigen Körper und lange Dochte nach oben und unten. Wie heißt sie?",o:["Hammer","Doji","Bullish Engulfing"],a:1,e:"Ein Doji zeigt Unentschlossenheit zwischen Käufern und Verkäufern."},
+ {q:"Was ist die Hauptaufgabe des Positionsgrößenrechners?",o:["Den Gewinn zu maximieren","Den Hebel zu erhöhen","Den Verlust bei einem Stop-Treffer auf einen festen Betrag zu begrenzen"],a:2,e:"Die Größe folgt aus Risiko in € ÷ Stop-Abstand. So kostet dich jeder Fehler gleich viel."},
+ {q:"Mit welchem Hebel kaufst du bei XTB echte Aktien?",o:["Ohne Hebel","1:5","1:30"],a:0,e:"Echte Aktien und ETFs werden ohne Hebel gekauft. Hebel gibt es nur bei CFDs."},
+ {q:"Trefferquote 40 %, CRV 1:2. Wie hoch ist der Erwartungswert pro Trade?",o:["−0,2 R","+0,2 R","0 R"],a:1,e:"0,4 × 2 R − 0,6 × 1 R = +0,2 R. Mit Disziplin ist das ein profitables System."},
+ {q:"Wann erscheint typischerweise der wöchentliche US-Gas-Speicherbericht (EIA)?",o:["Montag 9:00 Uhr","Freitag 22:00 Uhr","Donnerstag 16:30 Uhr deutscher Zeit"],a:2,e:"Rund um diesen Termin springt der Gaspreis oft. Plane deine Trades entsprechend."},
+ {q:"Ab wann setzt du laut deinem Plan echtes Geld ein?",o:["Nach 20 regelkonformen Demo-Trades mit vollständigem Journal","Sofort nach Kontoeröffnung","Nach dem ersten Gewinn im Demo"],a:0,e:"Erst wer im Demo nach Regeln handeln kann, schafft es auch mit echtem Geld und echten Emotionen."},
+ {q:"Kannst du bei XTB mit echten Aktien short gehen?",o:["Ja, ganz normal","Nein, Short geht nur über CFDs","Nur bei US-Aktien"],a:1,e:"Mit echten Aktien setzt du nur auf steigende Kurse. Für Short brauchst du einen CFD."},
+ {q:"Dein Trading-Topf ist um 50 % gefallen. Was ist dein nächster Schritt?",o:["Einsatz verdoppeln, um aufzuholen","Hebel erhöhen","Pause, zurück ins Demo, Journal auswerten"],a:2,e:"Das ist deine Notbremse. Nachschießen und größer werden ist Revenge Trading."},
+ {q:"Was ist ein Support?",o:["Ein exakter Preis, an dem der Kurs immer dreht","Eine Preiszone, an der Käufer bisher eingestiegen sind","Ein Indikator in der XTB-App"],a:1,e:"Support ist eine Zone, keine Linie, und keine Garantie. Je öfter getestet, desto bedeutender, aber auch desto eher bricht sie irgendwann."}
+]};
+const GLOSS=[
+ ["Ask / Bid","Ask ist der Kaufkurs, Bid der Verkaufskurs. Du kaufst zum Ask und verkaufst zum Bid."],
+ ["Spread","Differenz zwischen Ask und Bid. Hauptkosten beim CFD-Handel."],
+ ["CFD","Contract for Difference. Vertrag auf die Kursdifferenz, ohne das Instrument zu besitzen. Ermöglicht Hebel und Short."],
+ ["Long","Position, die von steigenden Kursen profitiert."],
+ ["Short","Position, die von fallenden Kursen profitiert. Bei XTB nur per CFD."],
+ ["Hebel","Verhältnis zwischen Positionsgröße und hinterlegter Margin, z. B. 1:10."],
+ ["Margin","Sicherheitsleistung, die du für eine Hebelposition hinterlegst."],
+ ["Margin Close-out","Automatisches Schließen von Positionen, wenn dein Kapital unter 50 % der benötigten Margin fällt."],
+ ["Negativsaldoschutz","Privatkunden können nicht mehr verlieren als ihr Kontoguthaben."],
+ ["Swap","Finanzierungskosten für CFD-Positionen, die über Nacht gehalten werden."],
+ ["Rollover","Wechsel des zugrunde liegenden Terminkontrakts bei Rohstoff-CFDs, mit Kursanpassung."],
+ ["Volumen (Lot)","Größe einer Position. Bei CFDs in Lots angegeben, bei Aktien in Stück."],
+ ["Pip","Kleinste übliche Preisänderung bei Währungen, meist die vierte Nachkommastelle."],
+ ["Kerze","Darstellung von Eröffnung, Hoch, Tief und Schluss eines Zeitraums."],
+ ["Docht","Linie über und unter dem Kerzenkörper, zeigt Hoch und Tief."],
+ ["Support","Preiszone, an der Käufer bisher eingestiegen sind."],
+ ["Resistance","Preiszone, an der Verkäufer den Kurs bisher gedrückt haben."],
+ ["Retest","Rücklauf des Kurses zu einer gerade durchbrochenen Zone."],
+ ["Fakeout","Falscher Ausbruch: Kurs sticht kurz durch eine Zone und kehrt sofort zurück."],
+ ["Gap","Kurslücke zwischen Schluss und nächster Eröffnung, z. B. nach Nachrichten über Nacht."],
+ ["Slippage","Ausführung zu einem schlechteren Kurs als gewünscht, meist bei Gaps oder hoher Volatilität."],
+ ["Volatilität","Wie stark und schnell ein Kurs schwankt."],
+ ["Market Order","Order, die sofort zum aktuellen Kurs ausgeführt wird."],
+ ["Limit Order","Order zu einem festen Preis oder besser. Buy Limit unter, Sell Limit über dem Kurs."],
+ ["Stop Order","Einstiegsorder beim Ausbruch. Buy Stop über, Sell Stop unter dem Kurs."],
+ ["Stop-Loss","Automatischer Ausstieg bei einem festgelegten Verlustkurs."],
+ ["Take-Profit","Automatischer Ausstieg bei einem festgelegten Gewinnkurs."],
+ ["Trailing Stop","Stop-Loss, der dem Kurs im festen Abstand folgt."],
+ ["CRV","Chance-Risiko-Verhältnis: möglicher Gewinn geteilt durch möglichen Verlust."],
+ ["R","Einheit für dein Risiko pro Trade. +2 R heißt: doppelt so viel gewonnen wie riskiert."],
+ ["Erwartungswert","Durchschnittliches Ergebnis pro Trade über viele Trades, gemessen in R."],
+ ["Moving Average (MA)","Gleitender Durchschnitt der Schlusskurse. SMA einfach, EMA gewichtet neue Kurse stärker."],
+ ["RSI","Relative-Stärke-Index, 0 bis 100. Über 70 überkauft, unter 30 überverkauft."],
+ ["MACD","Trendfolge-Indikator aus zwei EMAs und einer Signallinie."],
+ ["Divergenz","Kurs und Indikator laufen auseinander, z. B. neues Kurshoch ohne neues RSI-Hoch."],
+ ["KGV","Kurs-Gewinn-Verhältnis: Aktienkurs geteilt durch Gewinn je Aktie."],
+ ["ETF","Börsengehandelter Fonds, der einen Index abbildet, z. B. MSCI World."],
+ ["Investmentplan","XTB-Funktion für regelmäßige, automatische Käufe von ETFs und Aktien."],
+ ["Anlage KAP","Formular der Steuererklärung für Kapitalerträge. Bei XTB Pflicht."]
+];
+
+/* ---------- storage ---------- */
+const KEY="ta100-v1";
+let S={q:{},c:{}};
+try{const raw=localStorage.getItem(KEY);if(raw){const p=JSON.parse(raw);if(p&&typeof p==="object"){S.q=p.q||{};S.c=p.c||{}}}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const fmt=(n,d=2)=>Number.isFinite(n)?n.toLocaleString("de-DE",{minimumFractionDigits:d,maximumFractionDigits:d}):"–";
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function seeded(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return mulberry(h>>>0)}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function order(q){const r=seeded(q.q);const idx=q.o.map((_,i)=>i);for(let i=idx.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}return idx}
+
+/* ---------- quiz ---------- */
+function quizStatus(id){const qs=QUIZ[id];if(!qs)return{done:false,right:0,n:0,answered:0};const st=S.q[id]||{};let right=0,answered=0;qs.forEach((q,i)=>{if(st[i]!==undefined){answered++;if(st[i]===q.a)right++}});const el=$(`.quiz[data-quiz="${id}"]`);const pass=el&&el.dataset.pass?parseFloat(el.dataset.pass):0.66;return{done:answered===qs.length&&right/qs.length>=pass-1e-9,right,n:qs.length,answered}}
+function renderQuiz(el){
+  const id=el.dataset.quiz,qs=QUIZ[id],st=S.q[id]||{};const s=quizStatus(id);
+  const passTxt=id==="pruefung"?"ab 8 von 10 bestanden":"ab 2 von 3 bestanden";
+  let h=`<header><h3>${id==="pruefung"?"Prüfung":"Lernkontrolle"}</h3><span class="score ${s.done?"ok":""}">${s.answered===s.n?(s.done?"Bestanden · ":"Nicht bestanden · "):""}${s.right}/${s.n} richtig</span></header>`;
+  qs.forEach((q,i)=>{const ans=st[i];const locked=ans!==undefined;
+    h+=`<div class="qq"><p>${i+1}. ${esc(q.q)}</p><div class="opts">`;
+    order(q).forEach(oi=>{let cls="opt";if(locked){if(oi===q.a)cls+=" right";else if(oi===ans)cls+=" wrong"}
+      h+=`<button type="button" class="${cls}" data-i="${i}" data-o="${oi}" ${locked?"disabled":""}>${esc(q.o[oi])}</button>`});
+    h+=`</div>${locked?`<div class="expl"><b>${ans===q.a?"Richtig.":"Nicht ganz."}</b> ${esc(q.e)}</div>`:""}</div>`});
+  h+=`<div class="qa"><span class="mono" style="color:var(--muted);align-self:center">${passTxt}</span>${s.answered?`<button type="button" class="btn ghost" data-reset>Neu starten</button>`:""}</div>`;
+  el.innerHTML=h;
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".opt");
+  if(b&&!b.disabled){const el=b.closest(".quiz"),id=el.dataset.quiz;S.q[id]=S.q[id]||{};S.q[id][+b.dataset.i]=+b.dataset.o;save();renderQuiz(el);updateProgress();return}
+  const r=e.target.closest("[data-reset]");
+  if(r){const el=r.closest(".quiz");delete S.q[el.dataset.quiz];save();renderQuiz(el);updateProgress()}
+});
+
+/* ---------- nav ---------- */
+const toc=$("#toc");
+toc.innerHTML=MODS.map(m=>`<li><a href="#${m.id}" data-id="${m.id}"><span class="n">${m.n}</span><span>${esc(m.t)}</span><span class="st"></span></a></li>`).join("");
+$("#map").innerHTML=MODS.slice(1).map(m=>`<a href="#${m.id}"><small>${m.n} · ${m.min}</small><b>${esc(m.t)}</b></a>`).join("");
+$$("section.mod").forEach(sec=>{const i=MODS.findIndex(m=>m.id===sec.dataset.mod);const p=MODS[i-1],n=MODS[i+1];
+  const d=document.createElement("nav");d.className="pager";
+  d.innerHTML=(p?`<a class="btn ghost" href="#${p.id}">← ${esc(p.t)}</a>`:"<span></span>")+(n?`<a class="btn" href="#${n.id}">${esc(n.t)} →</a>`:"");
+  sec.appendChild(d)});
+function updateProgress(){
+  const qm=MODS.filter(m=>m.quiz);let done=0;
+  MODS.forEach(m=>{const a=toc.querySelector(`[data-id="${m.id}"]`);const ok=m.quiz&&quizStatus(m.id).done;if(ok)done++;a.querySelector(".st").classList.toggle("ok",!!ok);a.classList.toggle("done",!!ok)});
+  $("#progBar").style.width=(done/qm.length*100)+"%";
+  $("#progTxt").textContent=`${done} von ${qm.length} Lernkontrollen bestanden`;
+  $("#mobProg").textContent=`${done}/${qm.length} bestanden`;
+}
+function show(){
+  let id=(location.hash||"").slice(1);if(!MODS.some(m=>m.id===id))id="start";
+  $$("section.mod").forEach(s=>s.hidden=s.dataset.mod!==id);
+  $$("a",toc).forEach(a=>{if(a.dataset.id===id){a.setAttribute("aria-current","page");a.scrollIntoView({block:"nearest",inline:"center"})}else a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);
+  requestAnimationFrame(drawAll);
+}
+window.addEventListener("hashchange",show);
+
+/* ---------- checklists ---------- */
+$$("input[data-store]").forEach(cb=>{cb.checked=!!S.c[cb.dataset.store];cb.addEventListener("change",()=>{S.c[cb.dataset.store]=cb.checked;save()})});
+
+/* ---------- mini svgs ---------- */
+$$("[data-candles]").forEach(el=>{const spec=JSON.parse(el.dataset.candles);const n=spec.length,W=Math.max(80,n*28+24),H=96;const y=v=>8+(100-v)*0.8;
+  let s=`<svg class="mini" viewBox="0 0 ${W} ${H}" aria-hidden="true">`;
+  spec.forEach((c,i)=>{const[o,hh,l,cl]=c;const x=W/2+(i-(n-1)/2)*28;const up=cl>=o;const t=y(Math.max(o,cl)),b=y(Math.min(o,cl));
+    s+=`<line class="${up?"u":"d"}" x1="${x}" x2="${x}" y1="${y(hh)}" y2="${y(l)}"/><rect class="${up?"u":"d"}" x="${x-8}" y="${t}" width="16" height="${Math.max(2,b-t)}" rx="2"/>`});
+  el.innerHTML=s+"</svg>"});
+$$("[data-poly]").forEach(el=>{let s=`<svg class="mini" viewBox="0 0 118 70" aria-hidden="true">`;if(el.dataset.level)s+=`<line class="lv" x1="0" x2="118" y1="${el.dataset.level}" y2="${el.dataset.level}"/>`;s+=`<polyline class="pl" points="${el.dataset.poly}"/></svg>`;el.innerHTML=s});
+
+/* ---------- chart data ---------- */
+const DATA=(function(){const r=mulberry(7);const segs=[[8,110.8],[12,101.1],[10,110.6],[10,101.4],[9,110.9],[5,107.5],[6,113.5],[5,111.3],[10,119],[4,116.4],[11,125]];
+  let p=106;const cl=[];segs.forEach(([n,end])=>{const st=p;for(let i=1;i<=n;i++){const base=st+(end-st)*i/n;cl.push(i===n?end:base+(r()-0.5)*1.6)}p=end});
+  const d=[];let prev=106;cl.forEach(c=>{const o=prev;d.push({o,c,h:Math.max(o,c)+0.1+r()*0.8,l:Math.min(o,c)-0.1-r()*0.8});prev=c});return d})();
+const CL=DATA.map(d=>d.c);
+function sma(n){return CL.map((_,i)=>i<n-1?null:CL.slice(i-n+1,i+1).reduce((a,b)=>a+b,0)/n)}
+const MA20=sma(20),MA50=sma(50);
+const RSI=(function(){const out=new Array(CL.length).fill(null);let g=0,l=0;for(let i=1;i<CL.length;i++){const ch=CL[i]-CL[i-1];const up=Math.max(ch,0),dn=Math.max(-ch,0);if(i<=14){g+=up;l+=dn;if(i===14){g/=14;l/=14;out[i]=100-100/(1+g/(l||1e-9))}}else{g=(g*13+up)/14;l=(l*13+dn)/14;out[i]=100-100/(1+g/(l||1e-9))}}return out})();
+const BO=59,RT=64,PB=78;
+const TLAB={sr:"Support & Resistance",tl:"Trendlinie",ma20:"MA 20",ma50:"MA 50",rsi:"RSI 14"};
+
+function tok(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function rgba(hex,a){hex=hex.replace("#","");if(hex.length===3)hex=hex.split("").map(c=>c+c).join("");const v=parseInt(hex,16);return`rgba(${v>>16&255},${v>>8&255},${v&255},${a})`}
+
+$$(".chart").forEach(w=>{w._o=JSON.parse(w.dataset.chart);const tg=$(".togs",w);
+  w.dataset.toggles.split(",").forEach(k=>{const b=document.createElement("button");b.type="button";b.className="tog";b.textContent=TLAB[k];b.setAttribute("aria-pressed",String(!!w._o[k]));
+    b.addEventListener("click",()=>{w._o[k]=!w._o[k];b.setAttribute("aria-pressed",String(w._o[k]));draw(w)});tg.appendChild(b)})});
+
+function draw(w){
+  const cv=$("canvas",w);const W=cv.clientWidth||w.clientWidth-24;if(W<=0)return;
+  const o=w._o,mainH=W<500?240:290,rsiH=o.rsi?96:0,H=mainH+rsiH;const dpr=window.devicePixelRatio||1;
+  cv.style.height=H+"px";cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);const c=cv.getContext("2d");c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,W,H);
+  const C={ink:tok("--ink"),mut:tok("--muted"),line:tok("--line"),acc:tok("--accent"),up:tok("--up"),dn:tok("--down"),warn:tok("--warn")};
+  const mono=getComputedStyle(document.documentElement).getPropertyValue("--f-mono");
+  const L=6,R=44,T=10,B=18,pw=W-L-R,ph=mainH-T-B;
+  const lo=Math.min(...DATA.map(d=>d.l))-1.5,hi=Math.max(...DATA.map(d=>d.h))+1.5;
+  const Y=v=>T+(hi-v)/(hi-lo)*ph,step=pw/DATA.length,X=i=>L+(i+0.5)*step;
+  c.font=`11px ${mono}`;c.textBaseline="middle";
+  for(let v=Math.ceil(lo/5)*5;v<=hi;v+=5){c.strokeStyle=C.line;c.lineWidth=1;c.beginPath();c.moveTo(L,Y(v));c.lineTo(L+pw,Y(v));c.stroke();c.fillStyle=C.mut;c.fillText(v.toFixed(0),L+pw+6,Y(v))}
+  if(o.sr){
+    [[100.3,101.9,C.up,"Support"],[110.2,111.8,C.dn,"Resistance"]].forEach(([a,b,col,lab])=>{c.fillStyle=rgba(col,.14);c.fillRect(L,Y(b),pw,Y(a)-Y(b));c.fillStyle=col;c.font=`600 11px ${mono}`;c.fillText(lab,L+4,Y(b)-7)});
+    c.font=`11px ${mono}`;
+    [[BO,"Ausbruch",DATA[BO].h+1.2],[RT,"Retest",DATA[RT].l-1.4]].forEach(([i,t,v])=>{c.fillStyle=C.ink;c.textAlign="center";c.fillText(t,X(i),Y(v));c.textAlign="left"});
+    c.strokeStyle=C.acc;c.lineWidth=2;c.beginPath();c.arc(X(RT),Y(DATA[RT].l),7,0,Math.PI*2);c.stroke();
+  }
+  const bw=Math.max(2,step*0.62);
+  DATA.forEach((d,i)=>{const up=d.c>=d.o,col=up?C.up:C.dn;c.strokeStyle=col;c.fillStyle=col;c.lineWidth=1;c.beginPath();c.moveTo(X(i),Y(d.h));c.lineTo(X(i),Y(d.l));c.stroke();const t=Y(Math.max(d.o,d.c)),b=Y(Math.min(d.o,d.c));c.fillRect(X(i)-bw/2,t,bw,Math.max(1,b-t))});
+  function line(arr,col){c.strokeStyle=col;c.lineWidth=2;c.beginPath();let s=false;arr.forEach((v,i)=>{if(v==null)return;if(!s){c.moveTo(X(i),Y(v));s=true}else c.lineTo(X(i),Y(v))});c.stroke()}
+  if(o.ma20)line(MA20,C.acc);
+  if(o.ma50)line(MA50,C.warn);
+  if(o.tl){const a=DATA[RT].l,b=DATA[PB].l,sl=(b-a)/(PB-RT);c.strokeStyle=C.ink;c.lineWidth=1.5;c.setLineDash([6,4]);c.beginPath();c.moveTo(X(RT),Y(a));c.lineTo(X(DATA.length-1),Y(a+sl*(DATA.length-1-RT)));c.stroke();c.setLineDash([]);
+    c.fillStyle=C.ink;c.fillText("Trendlinie",X(PB)+6,Y(b)+12)}
+  if(o.rsi){const top=mainH+6,rh=rsiH-14,RY=v=>top+(100-v)/100*rh;
+    c.fillStyle=rgba(C.acc,.06);c.fillRect(L,RY(70),pw,RY(30)-RY(70));
+    [30,50,70].forEach(v=>{c.strokeStyle=C.line;c.lineWidth=1;c.beginPath();c.moveTo(L,RY(v));c.lineTo(L+pw,RY(v));c.stroke();c.fillStyle=C.mut;c.fillText(String(v),L+pw+6,RY(v))});
+    c.strokeStyle=C.acc;c.lineWidth=1.6;c.beginPath();let s=false;RSI.forEach((v,i)=>{if(v==null)return;if(!s){c.moveTo(X(i),RY(v));s=true}else c.lineTo(X(i),RY(v))});c.stroke();
+    c.fillStyle=C.mut;c.fillText("RSI",L+4,top+6)}
+  const lg=[];if(o.ma20)lg.push(["MA 20",C.acc]);if(o.ma50)lg.push(["MA 50",C.warn]);
+  let lx=L+pw-4;c.textAlign="right";lg.reverse().forEach(([t,col])=>{c.fillStyle=col;c.fillText(t,lx,T+8);lx-=c.measureText(t).width+14});c.textAlign="left";
+}
+function drawAll(){$$(".chart").forEach(w=>{if(!w.closest("section").hidden)draw(w)})}
+let rz;window.addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(drawAll,120)});
+try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",drawAll)}catch(e){}
+new MutationObserver(drawAll).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawAll);
+
+/* ---------- calculators ---------- */
+const num=id=>parseFloat(String($("#"+id).value).replace(",","."));
+function row(l,v,cls=""){return`<div class="row"><span>${l}</span><b class="${cls}">${v}</b></div>`}
+function lev(){const m=num("lev-m"),x=num("lev-x"),d=num("lev-d"),mv=num("lev-mv");const pos=m*x,pnl=pos*mv/100*d,pct=m?pnl/m*100:NaN;
+  const cls=pnl>0?"pos":pnl<0?"neg":"";
+  $("#levOut").innerHTML=`<span class="hint">Ergebnis</span><span class="big ${cls}">${pnl>0?"+":""}${fmt(pnl)} €</span>`+
+  row("Positionsgröße",fmt(pos)+" €")+row("Ergebnis auf deine Margin",(pct>0?"+":"")+fmt(pct,1)+" %",cls)+
+  row("Close-out ab Gegenbewegung von",fmt(50/x,1)+" %")+row("Margin komplett weg bei",fmt(100/x,1)+" %")+
+  `<span class="hint">Ohne Spread und Swap gerechnet. Bei Hebel 1:${x} wirkt jede Kursbewegung ${x}-fach auf deinen Einsatz.</span>`}
+function pos(){const a=num("pos-acc"),r=num("pos-r"),e=num("pos-e"),s=num("pos-s");const risk=a*r/100,dist=Math.abs(e-s);
+  if(!(dist>0)){$("#posOut").innerHTML=`<span class="hint">Einstieg und Stop dürfen nicht gleich sein.</span>`;return}
+  const units=risk/dist,val=units*e,need=val/a;
+  $("#posOut").innerHTML=`<span class="hint">Maximale Positionsgröße</span><span class="big">${fmt(units,2)} Einheiten</span>`+
+  row("Risiko in €",fmt(risk)+" €","neg")+row("Stop-Abstand",fmt(dist,3)+" ("+fmt(dist/e*100,1)+" %)")+row("Positionswert",fmt(val)+" €")+
+  row("Benötigter Hebel",need>1?"ca. 1:"+fmt(Math.ceil(need),0):"keiner")+
+  `<span class="hint">${s<e?"Long-Trade (Stop unter Einstieg).":"Short-Trade (Stop über Einstieg)."} Bei Kursen in USD rechnet XTB in Euro um, nimm das Ergebnis als Näherung und prüf den angezeigten Verlust im Orderfenster.</span>`}
+function crv(){const e=num("crv-e"),s=num("crv-s"),t=num("crv-t");const risk=Math.abs(e-s),rew=Math.abs(t-e);
+  if(!(risk>0)){$("#crvOut").innerHTML=`<span class="hint">Einstieg und Stop dürfen nicht gleich sein.</span>`;return}
+  const k=rew/risk,be=1/(1+k)*100,okDir=(s<e&&t>e)||(s>e&&t<e);
+  $("#crvOut").innerHTML=`<span class="hint">Chance-Risiko-Verhältnis</span><span class="big ${k>=2?"pos":"neg"}">1 : ${fmt(k,2)}</span>`+
+  row("Risiko pro Einheit",fmt(risk,3))+row("Chance pro Einheit",fmt(rew,3))+row("Nötige Trefferquote",fmt(be,1)+" %")+
+  row("Deine Regel (mind. 1:2)",k>=2?"erfüllt":"nicht erfüllt",k>=2?"pos":"neg")+
+  (okDir?"":`<span class="hint neg">Stop und Ziel liegen auf derselben Seite des Einstiegs. Prüf die Eingaben.</span>`)}
+[["levCalc",lev],["posCalc",pos],["crvCalc",crv]].forEach(([id,f])=>{$("#"+id).addEventListener("input",f);$("#"+id).addEventListener("change",f);f()});
+
+/* ---------- glossary ---------- */
+function renderGloss(q=""){q=q.trim().toLowerCase();$("#gloss").innerHTML=GLOSS.filter(([t,d])=>!q||t.toLowerCase().includes(q)||d.toLowerCase().includes(q)).map(([t,d])=>`<div><dt>${esc(t)}</dt><dd>${esc(d)}</dd></div>`).join("")||`<p style="color:var(--muted)">Kein Begriff gefunden.</p>`}
+$("#glossQ").addEventListener("input",e=>renderGloss(e.target.value));renderGloss();
+
+$$(".quiz").forEach(renderQuiz);
+updateProgress();show();
+})();
+</script>
+
+</body></html>
